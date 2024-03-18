@@ -632,7 +632,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.netcarrots.ozone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tibcon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OzoneOverseas.app/OzoneOverseas";
 			};
@@ -658,7 +658,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.netcarrots.ozone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tibcon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OzoneOverseas.app/OzoneOverseas";
 			};
@@ -692,7 +692,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.netcarrots.ozone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tibcon;
 				PRODUCT_NAME = OzoneOverseas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OzoneOverseas-Bridging-Header.h";
@@ -730,7 +730,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.netcarrots.ozone;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tibcon;
 				PRODUCT_NAME = OzoneOverseas;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OzoneOverseas-Bridging-Header.h";
