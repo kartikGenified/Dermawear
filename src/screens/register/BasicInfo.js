@@ -100,7 +100,7 @@ const BasicInfo = ({ navigation, route }) => {
   const width = Dimensions.get('window').width
   const height = Dimensions.get('window').height
   const gifUri = Image.resolveAssetSource(
-    require("../../../assets/gif/loader.gif")
+    require("../../../assets/gif/loader2.gif")
   ).uri;
 
   let timeoutId;

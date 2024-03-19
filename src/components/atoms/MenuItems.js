@@ -41,10 +41,10 @@ const MenuItems = (props) => {
                 :
                 <View style={{ justifyContent: "space-between", width: '45%', margin: 6, }}>
 
-                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 160, width: 150, backgroundColor: "#ffe4e4", alignItems: "center", justifyContent: "center", borderRadius: 10, opacity: 1, }}>
+                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 160, width: 150, backgroundColor: "#d5e9fd", alignItems: "center", justifyContent: "center", borderRadius: 10, opacity: 1,marginTop:15 }}>
 
                         <Image style={{ height: 105, width: 105 }} source={{ uri: image }}></Image>
-                        <PoppinsTextMedium content={content} style={{ width: '100%', alignSelf: "center", marginTop: 2, color: 'black', fontSize: platformFontSize, fontWeight: platformFontWeight, backgroundColor: "#ffe4e4", fontWeight: 'bold', marginTop: 20, fontSize: 14 }}></PoppinsTextMedium>
+                        <PoppinsTextMedium content={content} style={{ width: '100%', alignSelf: "center", marginTop: 2, color: 'black', fontSize: platformFontSize, fontWeight: platformFontWeight, backgroundColor: "#d5e9fd", fontWeight: 'bold', marginTop: 20, fontSize: 14 }}></PoppinsTextMedium>
 
                     </TouchableOpacity>
 

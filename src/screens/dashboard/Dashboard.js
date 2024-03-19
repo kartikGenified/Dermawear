@@ -69,7 +69,7 @@ const Dashboard = ({ navigation }) => {
     : '#FFB533';
   
     const gifUri = Image.resolveAssetSource(
-      require("../../../assets/gif/loader.gif")
+      require("../../../assets/gif/loader2.gif")
     ).uri;
   console.log("pointSharingData", JSON.stringify(pointSharingData), userData)
   console.log("user id is from dashboard", userId)
@@ -572,22 +572,21 @@ const Dashboard = ({ navigation }) => {
             }} />
           </View>
          {/* Ozone specific change do not show for sales */}
-         {
-            userData?.user_type_id !== 13 && 
+         {  
+            userData.user_type_id !== 13 && 
             <View style={{ width: "90%", height: 50, backgroundColor: 'white', marginBottom: 20, flexDirection: 'row', alignItems: 'center', borderColor: '#808080', borderWidth: 0.3, borderRadius: 10 }}>
 
             <View style={{ backgroundColor: 'white', width: '42%', marginHorizontal: 20 }}>
              {userPointData?.body?.point_balance ? <PoppinsText content={`Balance Points ${userPointData?.body?.point_balance ? userPointData?.body?.point_balance : "loading"}`} style={{ color: 'black', fontWeight: 'bold' }}></PoppinsText> : <AnimatedDots color={'black'}/>} 
             </View>
 
-
             <View style={{ height: '100%', borderWidth: 0.4, color: "#808080", opacity: 0.3, width: 0.2 }}>
             </View>
 
             <View style={{ backgroundColor: 'white', paddingLeft: '8%' }}>
-              {userData && !userPointIsLoading && <TouchableOpacity style={{ backgroundColor: ternaryThemeColor, padding: 10, borderRadius: 5, width: 120, alignItems: 'center' }} onPress={() => { navigation.navigate("RedeemedHistory") }}>
+              <TouchableOpacity style={{ backgroundColor: ternaryThemeColor, padding: 10, borderRadius: 5, width: 120, alignItems: 'center' }} onPress={() => { navigation.navigate("RedeemedHistory") }}>
                 <PoppinsTextLeftMedium style={{ color: 'white', fontWeight: '800' }} content="Redeem"  ></PoppinsTextLeftMedium>
-              </TouchableOpacity>}
+              </TouchableOpacity>
             </View>
 
           </View>
@@ -616,8 +615,8 @@ const Dashboard = ({ navigation }) => {
             {(userData.user_type).toLowerCase()!=="sales" &&<DashboardSupportBox text="Rewards" backgroundColor="#D9C7B6" borderColor="#FEE8D4" image={require('../../../assets/images/reward_dashboard.png')} ></DashboardSupportBox>}
             <DashboardSupportBox text="Customer Support" backgroundColor="#BCB5DC" borderColor="#E4E0FC" image={require('../../../assets/images/support.png')} ></DashboardSupportBox>
             <DashboardSupportBox text="Feedback" backgroundColor="#D8C8C8" borderColor="#FDDADA" image={require('../../../assets/images/feedback.png')} ></DashboardSupportBox>
-
           </View>
+          
           {/* <Button
         title="Add To Basket"
         onPress={async () =>

@@ -27,7 +27,7 @@ const WarrantyHistory = ({ navigation }) => {
         }
     ] = useGetWarrantyByAppUserIdMutation()
 
-    const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loader.gif')).uri;
+    const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loader2.gif')).uri;
     const noData = Image.resolveAssetSource(require('../../../assets/gif/noData.gif')).uri;
     let startDate,endDate
 

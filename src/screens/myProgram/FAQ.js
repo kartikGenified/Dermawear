@@ -17,7 +17,7 @@ const FAQ = ({ navigation }) => {
     const[faqData, setFAQData] = useState(null);
     const[error,setError] = useState(false);
 
-    const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loader.gif')).uri;
+    const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loader2.gif')).uri;
 
     const [fetchFAQ, {
         data:fetchFAQData, 

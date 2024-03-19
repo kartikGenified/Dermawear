@@ -13,7 +13,7 @@ import DataNotFound from '../data not found/DataNotFound';
 const ImageGallery = ({navigation}) => {
   const [imageData, setImageData] = useState({})
   const gifUri = Image.resolveAssetSource(
-    require("../../../assets/gif/loader.gif")
+    require("../../../assets/gif/loader2.gif")
   ).uri;
   const ternaryThemeColor = useSelector(
     state => state.apptheme.ternaryThemeColor,
