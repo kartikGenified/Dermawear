@@ -260,7 +260,7 @@ const OtpLogin = ({ navigation, route }) => {
       <View style={{
         width: '100%', alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: ternaryThemeColor,
+        backgroundColor: "white",
       }}>
         <View
           style={{
@@ -268,13 +268,13 @@ const OtpLogin = ({ navigation, route }) => {
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: ternaryThemeColor,
+            backgroundColor: "white",
             flexDirection: 'row',
 
           }}>
 
           <TouchableOpacity
-            style={{ height: 50, alignItems: "center", justifyContent: 'center', position: "absolute", left: 10, top: 20 }}
+            style={{ height: 50, alignItems: "center", justifyContent: 'center', position: "absolute", left: 15, top: 30 }}
             onPress={() => {
               navigation.goBack();
             }}>
@@ -284,17 +284,17 @@ const OtpLogin = ({ navigation, route }) => {
           </TouchableOpacity>
           <Image
             style={{
-              height: 50,
-              width: 100,
+              height: 90,
+              width: 130,
               resizeMode: 'contain',
-              top: 20,
+              // top: 20,
               position: "absolute",
               left: 50,
 
 
 
             }}
-            source={require('../../../assets/images/ozoneWhiteLogo.png')}></Image>
+            source={{uri:icon}}></Image>
         </View>
         <View
           style={{
@@ -304,7 +304,7 @@ const OtpLogin = ({ navigation, route }) => {
             width: '90%'
           }}>
           <PoppinsText
-            style={{ color: 'white', fontSize: 28 }}
+            style={{ color: 'white', fontSize: 28, color:'black' }}
             content="Tell us your mobile number"></PoppinsText>
 
         </View>

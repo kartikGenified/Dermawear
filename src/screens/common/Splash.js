@@ -56,7 +56,7 @@ const Splash = ({ navigation }) => {
 
   useEffect(()=>{
     getUsers();
-    getAppTheme("ozone")
+    getAppTheme("tibcon")
     const checkToken = async () => {
       const fcmToken = await messaging().getToken();
       if (fcmToken) {
@@ -264,7 +264,7 @@ const Splash = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1 }}>
-      <ImageBackground resizeMode='stretch' style={{ flex: 1, height: '100%', width: '100%', }} source={require('../../../assets/images/splash2.png')}>
+      <ImageBackground resizeMode='stretch' style={{ flex: 1, height: '100%', width: '100%', }} source={require('../../../assets/images/splash3.png')}>
       {!connected &&  <InternetModal comp = {NoInternetComp} />}
       {isSlowInternet && <InternetModal comp = {SlowInternetComp} /> }
       

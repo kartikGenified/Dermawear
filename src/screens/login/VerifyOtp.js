@@ -327,7 +327,7 @@ const VerifyOtp = ({ navigation, route }) => {
       <View style={{
         width: '100%', alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: ternaryThemeColor,
+        backgroundColor: 'white',
       }}>
         <View
           style={{
@@ -335,33 +335,32 @@ const VerifyOtp = ({ navigation, route }) => {
             width: '100%',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: ternaryThemeColor,
+            backgroundColor: 'white',
             flexDirection: 'row',
 
           }}>
 
           <TouchableOpacity
-            style={{ height: 50, alignItems: "center", justifyContent: 'center', position: "absolute", left: 10, top: 20 }}
+            style={{ height: 50, alignItems: "center", justifyContent: 'center', position: "absolute", left: 15, top: 30 }}
             onPress={() => {
               navigation.goBack();
             }}>
             <Image
-              style={{ height: 20, width: 20, resizeMode: 'contain' }}
+              style={{ height: 20, width: 20, resizeMode: 'contain', }}
               source={require('../../../assets/images/blackBack.png')}></Image>
           </TouchableOpacity>
           <Image
             style={{
-              height: 50,
-              width: 100,
+              height: 90,
+              width: 130,
               resizeMode: 'contain',
-              top: 20,
               position: "absolute",
               left: 50,
               
 
 
             }}
-            source={require('../../../assets/images/ozoneWhiteLogo.png')}></Image>
+            source={{uri:icon}}></Image>
         </View>
         <View
           style={{
@@ -371,10 +370,10 @@ const VerifyOtp = ({ navigation, route }) => {
             width: '90%'
           }}>
           <PoppinsText
-            style={{ color: 'white', fontSize: 28 }}
+            style={{ color: 'white', fontSize: 28, color:'black' }}
             content="Enter the OTP sent to"></PoppinsText>
           <PoppinsText
-            style={{ color: 'white', fontSize: 28 }}
+            style={{ color: 'white', fontSize: 28 , color:'black'}}
             content={navigationParams.mobile}></PoppinsText>
 
         </View>
