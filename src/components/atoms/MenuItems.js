@@ -41,9 +41,9 @@ const MenuItems = (props) => {
                 :
                 <View style={{ justifyContent: "space-between", width: '45%', left:6,  }}>
 
-                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 140, width: 140, backgroundColor: "#d5e9fd", alignItems: "center", justifyContent: "center", borderRadius: 10, opacity: 1,marginTop:15 }}>
+                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 120, width: 130, backgroundColor: "#d5e9fd", alignItems: "center", justifyContent: "center", borderRadius: 10, opacity: 1,marginTop:15 }}>
 
-                        <Image style={{ height: 80, width: 80 }} source={{ uri: image }}></Image>
+                        <Image style={{ height: 60, width: 60 }} source={{ uri: image }}></Image>
                         <PoppinsTextMedium content={content} style={{ width: '100%', alignSelf: "center", marginTop: 2, color: 'black', fontSize: platformFontSize, fontWeight: platformFontWeight, backgroundColor: "#d5e9fd", fontWeight: 'bold', marginTop: 20, fontSize: 14 }}></PoppinsTextMedium>
 
                     </TouchableOpacity>

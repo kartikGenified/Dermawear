@@ -83,9 +83,9 @@ const RewardBox = () => {
                 {
                     workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_balance} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Balance Points"></RewardSquare>
                 }
-                {
+                {/* {
                     workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_reserved} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Reserved Points"></RewardSquare>
-                }
+                } */}
                 {
                     workflow.includes("Points On Product") && userPointData && <RewardSquare amount={String(Number(userPointData.body.point_reserved) + Number(userPointData.body.point_balance)).substring(0,6)} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Total Points"></RewardSquare>
                 }
