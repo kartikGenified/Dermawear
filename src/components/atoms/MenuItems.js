@@ -31,7 +31,7 @@ const MenuItems = (props) => {
             {dashMenu_type !== "Big" ?
                 <View style={{ alignItems: "center", justifyContent: "center", width: 100, margin: 6, marginTop: 20 }}>
 
-                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 69, width: 69, backgroundColor: colorShades[100], alignItems: "center", justifyContent: "center", borderRadius: props?.type != "rectangular" ? 34.5 : 0, opacity: 0.6 }}>
+                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 58, width: 60, backgroundColor: colorShades[100], alignItems: "center", justifyContent: "center", borderRadius: props?.type != "rectangular" ? 34.5 : 0, opacity: 0.6 }}>
 
                         <Image style={{ height: 69, width: 69 }} source={{ uri: image }}></Image>
                     </TouchableOpacity>
@@ -39,11 +39,11 @@ const MenuItems = (props) => {
                 </View>
 
                 :
-                <View style={{ justifyContent: "space-between", width: '45%', margin: 6, }}>
+                <View style={{ justifyContent: "space-between", width: '45%', left:6,  }}>
 
-                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 160, width: 150, backgroundColor: "#d5e9fd", alignItems: "center", justifyContent: "center", borderRadius: 10, opacity: 1,marginTop:15 }}>
+                    <TouchableOpacity onPress={() => { handlePress() }} style={{ height: 140, width: 140, backgroundColor: "#d5e9fd", alignItems: "center", justifyContent: "center", borderRadius: 10, opacity: 1,marginTop:15 }}>
 
-                        <Image style={{ height: 105, width: 105 }} source={{ uri: image }}></Image>
+                        <Image style={{ height: 80, width: 80 }} source={{ uri: image }}></Image>
                         <PoppinsTextMedium content={content} style={{ width: '100%', alignSelf: "center", marginTop: 2, color: 'black', fontSize: platformFontSize, fontWeight: platformFontWeight, backgroundColor: "#d5e9fd", fontWeight: 'bold', marginTop: 20, fontSize: 14 }}></PoppinsTextMedium>
 
                     </TouchableOpacity>
