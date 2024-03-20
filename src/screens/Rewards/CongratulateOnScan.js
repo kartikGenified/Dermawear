@@ -231,7 +231,7 @@ const CongratulateOnScan = ({ navigation, route }) => {
     if (getActiveMembershipData) {
         console.log("getActiveMembershipData", JSON.stringify(getActiveMembershipData))
         console.log("getMembershipData", JSON.stringify(getMembershipData))
-        if(getActiveMembershipData.success)
+        if(getActiveMembershipData.success && getActiveMembershipData.body!=null)
         {
           const stats = Number(getActiveMembershipData.body?.stats?.total) + Number(productMrp?.mrp)
           const membershiparr = getMembershipData.body
@@ -250,6 +250,10 @@ const CongratulateOnScan = ({ navigation, route }) => {
 
             }
           }
+
+        }
+        else if(getActiveMembershipData.body==null){
+          fetchRewardsAccToWorkflow(0);
 
         }
     }
