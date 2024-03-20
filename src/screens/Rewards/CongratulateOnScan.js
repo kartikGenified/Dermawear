@@ -683,7 +683,7 @@ const getMembership = async () => {
               tenant_id: slug,
               token: token,
             };
-            console.log("userPointEntryFunc", body);
+            console.log("userPointEntryFuncFlatPoints", body,userData.user_type,"_points");
             userPointEntryFunc(body);
           };
           submitPoints();

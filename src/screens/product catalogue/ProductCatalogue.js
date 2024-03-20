@@ -176,11 +176,11 @@ const ProductCatalogue = ({ navigation }) => {
               flexWrap: 'wrap',
               flexDirection: 'row'
             }}>
+
             {
               catalogueData && catalogueData.map((item, index) => {
                 return (
-                  <CatalogueItem key={index} title={item.name} image={item.image} pdf={item.files[0]}></CatalogueItem>
-
+                  <CatalogueItem key={index} title={item.name} image={item.image} pdf={item.files[0]}></CatalogueItem>  
                 )
               })
             }
