@@ -185,12 +185,12 @@ const ProductCatalogue = ({ navigation }) => {
               })
             }
 
-            {
+            {/* {
               (catalogueData == undefined || catalogueData == null || catalogueData?.length == 0) &&
               <View style={{position:'absolute',top:70, left:60}}>
               <DataNotFound />
               </View>
-            }
+            } */}
 
             {productCatalogueIsLoading &&
               <FastImage

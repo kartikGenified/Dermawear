@@ -56,6 +56,11 @@ const ScannedHistory = ({ navigation }) => {
   const qrData = useSelector((state) => state.qrData.qrData);
   const userId = useSelector((state) => state.appusersdata.userId);
   const id = useSelector((state) => state.appusersdata.id);
+
+  const icon = useSelector(state => state.apptheme.icon)
+  ? useSelector(state => state.apptheme.icon)
+  : require('../../../assets/images/demoIcon.png');
+
   const ternaryThemeColor = useSelector(
     (state) => state.apptheme.ternaryThemeColor
   )
@@ -468,14 +473,14 @@ const ScannedHistory = ({ navigation }) => {
             justifyContent: "center",
             borderRadius: 10,
             borderColor: "#DDDDDD",
-            backgroundColor:ternaryThemeColor,
+            // backgroundColor:ternaryThemeColor,
             marginLeft:20
           }}
         >
           {image !== null && (
             <Image
               style={{ height: 60, width: 60, resizeMode: "contain" }}
-              source={{ uri: image=='' ? null : image }}
+              source={{ uri: image=='' ? icon : icon }}
             ></Image>
           )}
         </View>

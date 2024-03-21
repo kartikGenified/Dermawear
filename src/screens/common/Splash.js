@@ -168,11 +168,16 @@ const Splash = ({ navigation }) => {
         {
           if(value==="Yes")
           {
-            navigation.navigate('SelectUser');
+            // navigation.navigate('SelectUser');
+          navigation.reset({ index: '0', routes: [{ name: 'SelectUser' }] })       
+
 
           }
           else{
-            navigation.navigate('Introduction')
+            // navigation.navigate('Introduction')
+          navigation.reset({ index: '0', routes: [{ name: 'Introduction' }] })       
+
+
           }
           // console.log("isAlreadyIntroduced",isAlreadyIntroduced,gotLoginData)
     

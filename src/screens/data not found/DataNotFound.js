@@ -22,7 +22,7 @@ const DataNotFound = () => {
             <PoppinsText content="No Data Found" style={{color:'black',fontWeight:'700',fontSize:20}}></PoppinsText>
             <PoppinsTextMedium content="Data is empty" style={{color:'#676767',fontWeight:'500',fontSize:14}}></PoppinsTextMedium>
             <View style={{marginTop:40}}>
-            <ButtonNavigateArrow style={{color:'white',fontSize:18}} backgroundColor={ternaryThemeColor} handleOperation={handleButton} content="Back to Dashboard"></ButtonNavigateArrow>
+            <ButtonNavigateArrow style={{color:'white',fontSize:16, width:'100%',}} backgroundColor={ternaryThemeColor} handleOperation={handleButton} content="Back to Dashboard"></ButtonNavigateArrow>
 
             </View>
         </View>

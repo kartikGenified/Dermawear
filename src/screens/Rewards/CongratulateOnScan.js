@@ -67,7 +67,7 @@ const CongratulateOnScan = ({ navigation, route }) => {
   );
   const qrIdList = useSelector((state) => state.qrData.qrIdList);
   const userData = useSelector((state) => state.appusersdata.userData);
-  console.log("userData", `${userData.user_type}_points`, JSON.stringify(pointSharingData));
+  console.log("userData", `${userData.user_type}_points`, JSON.stringify(pointSharingData),userData);
   const pointPercentage = useSelector(
     (state) => state.pointSharing.percentagePoints
   );

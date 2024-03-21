@@ -1370,7 +1370,7 @@ const QrCodeScanner = ({ navigation }) => {
               <ButtonProceed
                 handleOperation={handleAddQr}
                 style={{ color: 'white' }}
-                content={isDistributor ? "Revert Bar & Points" : "Proceed"}
+                content={ "Proceed"}
                 navigateTo={'QrCodeScanner'}></ButtonProceed>
             }
 
