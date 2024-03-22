@@ -1,1 +1,1 @@
-export const user_type_option ="multiple"
+export const user_type_option ="single"

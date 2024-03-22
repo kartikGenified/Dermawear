@@ -129,7 +129,7 @@ const SelectUser = ({navigation}) => {
           <Image
             style={{
               height: 150,
-              width: 240,
+              width: 270,
               resizeMode: 'contain',
               top: 60,
             }}

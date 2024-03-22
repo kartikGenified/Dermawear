@@ -408,10 +408,10 @@ const RedeemedHistory = ({ navigation }) => {
       <View style={{ height: 40, width: '100%', backgroundColor: '#DDDDDD', alignItems: "center", flexDirection: "row", marginTop: 20 }}>
 
         <PoppinsTextMedium style={{ marginLeft: 20, fontSize: 16, position: "absolute", left: 10 }} content="Redeemed Ledger"></PoppinsTextMedium>
-
+{/* 
         <TouchableOpacity onPress={() => { setOpenBottomModal(!openBottomModal), setMessage("BOTTOM MODAL") }} style={{ position: "absolute", right: 20 }}>
           <Image style={{ height: 22, width: 22, resizeMode: "contain" }} source={require('../../../assets/images/settings.png')}></Image>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         {openBottomModal && <FilterModal
           modalClose={modalClose}
