@@ -21,8 +21,8 @@ const DataNotFound = () => {
             <Image style={{height:200,width:200,resizeMode:'center'}} source={require('../../../assets/images/dataNotFound.png')}></Image>
             <PoppinsText content="No Data Found" style={{color:'black',fontWeight:'700',fontSize:20}}></PoppinsText>
             <PoppinsTextMedium content="Data is empty" style={{color:'#676767',fontWeight:'500',fontSize:14}}></PoppinsTextMedium>
-            <View style={{marginTop:40}}>
-            <ButtonNavigateArrow style={{color:'white',fontSize:16, width:'100%',}} backgroundColor={ternaryThemeColor} handleOperation={handleButton} content="Back to Dashboard"></ButtonNavigateArrow>
+            <View style={{marginTop:40,}}>
+            <ButtonNavigateArrow style={{color:'white',fontSize:16, width:'80%',}} backgroundColor={ternaryThemeColor} handleOperation={handleButton} content="Back to Dashboard"></ButtonNavigateArrow>
 
             </View>
         </View>
