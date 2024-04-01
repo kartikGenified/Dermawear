@@ -160,6 +160,11 @@ const OtpLogin = ({ navigation, route }) => {
     setMobile("")
   }, [focused])
 
+  useEffect(() => {
+    setName("")
+    setMobile("")
+  }, [])
+
   const getMobile = data => {
     // console.log(data)
     setMobile(data)
