@@ -1,5 +1,5 @@
 import React from 'react';
-import {View,Text,Platform, TouchableOpacity} from 'react-native'
+import {View,Text,Platform, TouchableOpacity, Image} from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Dashboard from '../screens/dashboard/Dashboard';
 import Gift from 'react-native-vector-icons/AntDesign'
@@ -9,6 +9,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Wave from '../../assets/svg/bottomDrawer.svg'
 import PoppinsTextMedium from '../components/electrons/customFonts/PoppinsTextMedium';
 import BookOpen from 'react-native-vector-icons/Entypo' 
+// import { Image } from 'react-native-svg';
 
 const Tab = createBottomTabNavigator();
 
@@ -33,8 +34,11 @@ function BottomNavigator({navigation}) {
       <Wave style={{top:10}} width={100}></Wave>
     <View style={{alignItems:"center",justifyContent:"center",flexDirection:"row",height:60,backgroundColor:"white",width:'100%'}}>
     <TouchableOpacity onPress={()=>{navigation.navigate('GiftCatalogue')}} style={{alignItems:"center",position:'absolute', left:30}}>
-    <Gift name="gift" size={24} color={ternaryThemeColor}></Gift>
-    <PoppinsTextMedium style={{marginTop:4,fontSize:12,fontWeight:platformFontWeight,color:'black'}} content="Gift Catalogue"></PoppinsTextMedium>
+    {/* <Gift name="gift" size={24} color={ternaryThemeColor}></Gift> */}
+    {/* <BookOpen name="open-book" size={24} color={ternaryThemeColor}></BookOpen> */}
+    <Image style={{height:23,width:23}} source={require("../../assets/images/booko2.png")}></Image>
+
+    <PoppinsTextMedium style={{marginTop:4,fontSize:12,fontWeight:platformFontWeight,color:'black'}} content="Product Catalogue"></PoppinsTextMedium>
     </TouchableOpacity>
     {/* ozone change */}
     { ((userData.user_type).toLowerCase()!=="dealer"  && (userData.user_type).toLowerCase()!=="sales") ? <TouchableOpacity onPress={()=>{navigation.navigate('QrCodeScanner')}} style={{alignItems:"center",justifyContent:"center",}}>
