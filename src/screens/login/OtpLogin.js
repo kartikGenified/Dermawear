@@ -308,11 +308,11 @@ const OtpLogin = ({ navigation, route }) => {
           {/* <PoppinsTextMedium style={{fontSize:14,color:'white'}} content ="Don't have an account ?"></PoppinsTextMedium> */}
           {/* user_type != "distributor" && */}
           {
-            <View style={{ position: "absolute", right: 20, top: 10 }}>
+            <View style={{ position: "absolute", right: 20, top: 10 ,marginTop:4}}>
               <ButtonNavigate
                 handleOperation={() => { navigation.navigate("BasicInfo", { needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }) }}
                 backgroundColor="#353535"
-                style={{ color: 'white', fontSize: 16 }}
+                style={{ color: 'white', fontSize: 13 ,height:18, }}
                 content="Register"
                 navigateTo="BasicInfo"
                 properties={{ needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }}
