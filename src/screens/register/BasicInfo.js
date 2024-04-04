@@ -50,7 +50,9 @@ import {GoogleMapsKey} from "@env"
 const BasicInfo = ({ navigation, route }) => {
   const [userName, setUserName] = useState(route.params.name)
   const [userMobile, setUserMobile] = useState(route.params.mobile)
+  const [userWhatsapp, setUserWhatsapp]= useState();
   const [message, setMessage] = useState();
+  const [whatsappmessage, setWhatsappMessage] = useState();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [registrationForm, setRegistrationForm] = useState([])
@@ -425,6 +427,10 @@ console.log("navigation params from basic info",navigationParams)
 
 
   const handleChildComponentData = data => {
+
+      console.log("handleChildComponentData", data)
+
+    
     if(data?.name == "aadhar")
     {
       console.log("handleChildComponentData", data)
@@ -457,19 +463,7 @@ console.log("navigation params from basic info",navigationParams)
      {
       setHideButton(true)
      }
-    
-     
-     
-     
-      
-     
-      
-      
     }
-    
-
-
-
 
     if (data?.name === "mobile") {
       const reg = '^([0|+[0-9]{1,5})?([6-9][0-9]{9})$';
@@ -478,6 +472,27 @@ console.log("navigation params from basic info",navigationParams)
         if(mobReg.test(data?.value))
       {
       setUserMobile(data?.value)
+      }
+      else{
+        setError(true)
+        setMessage("Please enter a valid mobile number")
+      }
+    }
+
+    }
+
+    if (data?.name === "whatsapp_number") {
+      console.log("entered whatsapp", data.value)
+      const reg = '^([0|+[0-9]{1,5})?([6-9][0-9]{9})$';
+
+      setUserWhatsapp(data?.value)
+
+      
+      const mobReg = new RegExp(reg)
+      if (data?.value?.length === 10) {
+        if(mobReg.test(data?.value))
+      {
+      setUserWhatsapp(data?.value)
       }
       else{
         setError(true)
@@ -592,20 +607,28 @@ console.log("navigation params from basic info",navigationParams)
       const keys = Object.keys(body)
       const values = Object.values(body)
 
-      if (keys.includes('email')) {
-        const index = keys.indexOf('email')
-        if (isValidEmail(values[index])) {
-          registerUserFunc(body)
-          setHideButton(true)
+      if(userWhatsapp== undefined || userWhatsapp.length == 10 || userWhatsapp.length==0){
+        if (keys.includes('email')) {
+          const index = keys.indexOf('email')
+          if (isValidEmail(values[index])) {
+            registerUserFunc(body)
+            setHideButton(true)
+          }
+          else {
+            setError(true)
+            setMessage("Email isn't verified")
+          }
         }
         else {
-          setError(true)
-          setMessage("Email isn't verified")
+          registerUserFunc(body)
         }
+
       }
-      else {
-        registerUserFunc(body)
+      else{
+        setError(true)
+        setMessage("Please Enter valid  Whatsapp Number")
       }
+     
 
       // make request according to the login type of user-----------------------
 
@@ -674,11 +697,6 @@ console.log("navigation params from basic info",navigationParams)
           justifyContent: 'center',
           width: '100%',
           height: '10%',
-
-
-
-
-
         }}>
         <TouchableOpacity
           style={{
@@ -807,6 +825,39 @@ console.log("navigation params from basic info",navigationParams)
                           </View>
                         </>
                       }
+                    </>
+                  );
+
+
+                }
+
+                if (item.name === 'whatsapp_number') {
+                  return (
+                    <>
+                      <View style={{ flexDirection: 'row', flex: 1 }}>
+                        <View style={{ flex: 1, marginLeft:18}}>
+                          { <TextInputNumericRectangle
+                            jsonData={item}
+                            key={index}
+                            maxLength={10}
+                            handleData={handleChildComponentData}
+                            placeHolder={item.name}
+                            value={whatsappmessage}
+                            label={item.label}
+                            isEditwable={true}
+                          >
+                            {' '}
+                          </TextInputNumericRectangle>}
+                    
+                        </View>
+
+                  
+                     
+                      </View>
+
+
+
+                   
                     </>
                   );
 
@@ -964,6 +1015,7 @@ console.log("navigation params from basic info",navigationParams)
 
 
                 }
+                
                 else {
                   return (
                     <TextInputRectangle

@@ -37,6 +37,7 @@ const OtpLogin = ({ navigation, route }) => {
   const [message, setMessage] = useState()
   const [error, setError] = useState(false)
   const [isChecked, setIsChecked] = useState(false);
+  const [disable, setDisable] = useState(true);
 
   // fetching theme for the screen-----------------------
 
@@ -106,6 +107,10 @@ const OtpLogin = ({ navigation, route }) => {
 
   useEffect(() => {
     fetchTerms();
+    
+    setTimeout(()=>{
+      setDisable(false)
+    },3600)
   }, [])
 
   useEffect(() => {
@@ -314,6 +319,7 @@ const OtpLogin = ({ navigation, route }) => {
                 backgroundColor="#353535"
                 style={{ color: 'white', fontSize: 13 ,height:18, }}
                 content="Register"
+                disable={disable}
                 navigateTo="BasicInfo"
                 properties={{ needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }}
               >

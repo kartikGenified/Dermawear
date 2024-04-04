@@ -155,10 +155,10 @@ const Splash = ({ navigation }) => {
 
   const checkApprovalFlow = (registrationRequired) => {
     if (manualApproval.includes(getUsersData?.body?.[0].user_type)) {
-      handleNavigationBaseddOnUser(true, registrationRequired)
+    listUsers &&  handleNavigationBaseddOnUser(true, registrationRequired)
     }
     else {
-      handleNavigationBaseddOnUser(false, registrationRequired)
+     listUsers && handleNavigationBaseddOnUser(false, registrationRequired)
     }
   }
 
@@ -166,12 +166,15 @@ const Splash = ({ navigation }) => {
     console.log("Needs Approval", needsApproval)
     if (otpLogin.includes(getUsersData?.body?.[0].user_type)
     ) {
-      setTimeout(() => {
-      listUsers &&  navigation.reset({ index: '0', routes: [{ name: 'OtpLogin',params:{needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired }}] })       
+   
 
-        // listUsers && navigation.navigate('OtpLogin', { needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired })
+        setTimeout(()=>{
+          // listUsers && navigation.reset({ index: '0', routes: [{ name: 'OtpLogin',params:{needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired }}] })
+        listUsers && navigation.navigate('OtpLogin', { needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired })
 
-      }, 3000);
+        },5000)
+
+
     }
     else {
       setTimeout(() => {
@@ -179,7 +182,7 @@ const Splash = ({ navigation }) => {
       listUsers &&  navigation.reset({ index: '0', routes: [{ name: 'OtpLogin',params:{needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired }}] })       
 
 
-      }, 3000)
+      }, 4000)
       // console.log("Password Login", props.content, props.id, registrationRequired, needsApproval)
     }
   }

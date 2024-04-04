@@ -21,6 +21,7 @@ const ButtonNavigate = props => {
   // prop to navigate to another page
   const content = props.content;
   const properties  = props.properties
+  const disable = props.disable
   // prop to display text inside the button
   
   const handleButtonPress = () => {
@@ -48,14 +49,14 @@ const ButtonNavigate = props => {
   return (
     <TouchableOpacity
       onPress={() => {
-       handleButtonPress()
+      !disable && handleButtonPress()
       }}
       style={{
         padding: 10,
         borderRadius: 4,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: backgroundColor,
+        backgroundColor: !disable ? backgroundColor : "#808080",
         margin: 10,
         paddingLeft: 20,
         paddingRight: 20,
