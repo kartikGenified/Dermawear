@@ -1295,14 +1295,14 @@ const QrCodeScanner = ({ navigation }) => {
                 isReportable={isReportable}
                 openModal={error}></ErrorModal>
             )}
-            {error && (
+            {/* {error && (
               <ErrorModal
                 modalClose={modalClose}
                 isReportable={isReportable}
                 message={message}
 
                 openModal={error}></ErrorModal>
-            )}
+            )} */}
             {
               success && (
                 <MessageModal

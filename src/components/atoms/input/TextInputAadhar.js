@@ -60,7 +60,7 @@ const TextInputAadhar = (props) => {
           "aadhaar_number":value
       }
       sendAadharOtpFunc(data)
-        
+        props.notVerified(false)
        
       }
       else{
@@ -94,7 +94,7 @@ const TextInputAadhar = (props) => {
           console.log("success")
           setOtpSent(true)
           setShowOtp(true)
-          props.notVerified(true)
+          props.notVerified(false)
         }
         }
         else if(sendAadharOtpError)

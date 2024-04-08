@@ -562,11 +562,13 @@ const CustomDrawer = () => {
           }
         </View>
       </View>
-      <ScrollView contentContainerStyle={{}} style={{ width: '100%',height:'100%'}} >
+
+      <ScrollView  style={{ width: '100%',height:'100%', backgroundColor:'white'}} >
 
         {
           drawerData !== undefined && drawerData.app_menu.map((item, index) => {
             return (
+          
               <DrawerItems
                 key={index}
                 title={item.name}
@@ -579,16 +581,18 @@ const CustomDrawer = () => {
 
    
 
-        <TouchableOpacity style={{ backgroundColor: ternaryThemeColor, height: 50, justifyContent: 'center', width: '100%' }} onPress={() => {
-         
-          handleLogout()
-          
-          
-        }}>
-          <PoppinsTextLeftMedium style={{ color: 'white', marginLeft: 90 }} content="LOG OUT -->"></PoppinsTextLeftMedium>
-        </TouchableOpacity>
 
       </ScrollView>
+
+      
+      <TouchableOpacity style={{ backgroundColor: ternaryThemeColor, height: 50, justifyContent: 'center', width: '100%' }} onPress={() => {
+         
+         handleLogout()
+         
+         
+       }}>
+         <PoppinsTextLeftMedium style={{ color: 'white', marginLeft: 90 }} content="LOG OUT -->"></PoppinsTextLeftMedium>
+       </TouchableOpacity>
 
 
 

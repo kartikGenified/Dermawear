@@ -33,7 +33,7 @@ function BottomNavigator({navigation}) {
     <Tab.Navigator tabBar={()=><View style={{alignItems:"center",justifyContent:"center",width:"100%",backgroundColor:"#F7F7F7"}}>
       <Wave style={{top:10}} width={100}></Wave>
     <View style={{alignItems:"center",justifyContent:"center",flexDirection:"row",height:60,backgroundColor:"white",width:'100%'}}>
-    <TouchableOpacity onPress={()=>{navigation.navigate('GiftCatalogue')}} style={{alignItems:"center",position:'absolute', left:30}}>
+    <TouchableOpacity onPress={()=>{navigation.navigate('ProductCatalogue')}} style={{alignItems:"center",position:'absolute', left:30}}>
     {/* <Gift name="gift" size={24} color={ternaryThemeColor}></Gift> */}
     {/* <BookOpen name="open-book" size={24} color={ternaryThemeColor}></BookOpen> */}
     <Image style={{height:23,width:23}} source={require("../../assets/images/booko2.png")}></Image>

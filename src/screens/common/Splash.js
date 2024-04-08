@@ -170,7 +170,9 @@ const Splash = ({ navigation }) => {
 
         setTimeout(()=>{
           // listUsers && navigation.reset({ index: '0', routes: [{ name: 'OtpLogin',params:{needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired }}] })
+        // listUsers && navigation.reset('OtpLogin', { needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired })
         listUsers && navigation.navigate('OtpLogin', { needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired })
+
 
         },5000)
 
@@ -178,8 +180,8 @@ const Splash = ({ navigation }) => {
     }
     else {
       setTimeout(() => {
-        // listUsers && navigation.navigate('OtpLogin', { needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired })
-      listUsers &&  navigation.reset({ index: '0', routes: [{ name: 'OtpLogin',params:{needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired }}] })       
+        listUsers && navigation.navigate('OtpLogin', { needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired })
+      // listUsers &&  navigation.reset({ index: '0', routes: [{ name: 'OtpLogin',params:{needsApproval: needsApproval, userType: listUsers[0]?.user_type, userId: listUsers[0]?.user_type_id, registrationRequired: registrationRequired }}] })       
 
 
       }, 4000)
@@ -245,19 +247,19 @@ const Splash = ({ navigation }) => {
             }
             else {
               setTimeout(()=>{
-                // navigation.navigate('SelectUser');
-              navigation.reset({ index: '0', routes: [{ name: 'SelectUser' }] })
-  
+                navigation.navigate('SelectUser');  
+              // navigation.reset({ index: '0', routes: [{ name: 'OtpLogin' }] })
+   
   
               },1000)
             }
   
           }
           else {
-            setTimeout(()=>{
+           
               navigation.navigate('Introduction')
   
-            },1000)
+      
           }
           // console.log("isAlreadyIntroduced",isAlreadyIntroduced,gotLoginData)
   

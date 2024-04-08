@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,7 +7,8 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   TouchableOpacity,
-  Keyboard
+  Keyboard,
+  BackHandler
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { BaseUrl } from '../../utils/BaseUrl';
@@ -27,10 +28,13 @@ import PoppinsTextLeftMedium from '../../components/electrons/customFonts/Poppin
 import Checkbox from '../../components/atoms/checkbox/Checkbox';
 import { useFetchLegalsMutation } from '../../apiServices/fetchLegal/FetchLegalApi';
 import * as Keychain from 'react-native-keychain';
+import { useFocusEffect } from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 
 
 
 const OtpLogin = ({ navigation, route }) => {
+  console.log("route parms",route.params);
   const [mobile, setMobile] = useState("")
   const [name, setName] = useState("")
   const [success, setSuccess] = useState(false)
@@ -70,6 +74,13 @@ const OtpLogin = ({ navigation, route }) => {
 
   // ------------------------------------------------
   const focused = useIsFocused()
+  const gifUri = Image.resolveAssetSource(require('../../../assets/gif/loader2.gif')).uri;
+
+
+     // Add event listener for hardware back button press
+ 
+
+
   // send otp for login--------------------------------
   const [sendOtpFunc, {
     data: sendOtpData,
@@ -113,6 +124,26 @@ const OtpLogin = ({ navigation, route }) => {
     },3600)
   }, [])
 
+ 
+
+  useEffect(() => {
+    const backAction = () => {
+      // Add your custom exit logic here, for example:
+      // BackHandler.exitApp();
+      setMobile("")
+      return true; // Prevent default behavior (exit the app)
+    };
+
+    // Add event listener for hardware back button press
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    // Clean up by removing event listener when component unmounts
+    return () => backHandler.remove();
+  }, []); // Only run this effect once on component mount
+  
   useEffect(() => {
     if (getTermsData) {
       console.log("getTermsData", getTermsData.body.data?.[0]?.files[0]);
@@ -121,6 +152,7 @@ const OtpLogin = ({ navigation, route }) => {
       console.log("gettermserror", getTermsError)
     }
   }, [getTermsData, getTermsError])
+  
 
 
 
@@ -168,6 +200,7 @@ const OtpLogin = ({ navigation, route }) => {
   useEffect(() => {
     setName("")
     setMobile("")
+    clearData()
   }, [])
 
   const getMobile = data => {
@@ -184,6 +217,11 @@ const OtpLogin = ({ navigation, route }) => {
 
   };
 
+  const clearData = useCallback(async () =>{
+    setMobile("")
+    setName("")
+  },[])
+
   const fetchTerms = async () => {
     const credentials = await Keychain.getGenericPassword();
     const token = credentials.username;
@@ -191,6 +229,12 @@ const OtpLogin = ({ navigation, route }) => {
       type: "term-and-condition"
     }
     getTermsAndCondition(params)
+  }
+
+  const navigateToRegister =()=>{
+    
+    navigation.navigate("BasicInfo", { needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" })
+
   }
 
 
@@ -225,7 +269,7 @@ const OtpLogin = ({ navigation, route }) => {
         if (getNameData.message === "Not Found") {
           console.log("registrationRequired", registrationRequired)
           if (mobile?.length == 10) {
-            // registrationRequired ? navigation.navigate('BasicInfo', { needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }) : navigateToOtp()
+            registrationRequired ? navigation.navigate('BasicInfo', { needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }) : navigateToOtp()
             setError(true)
             setMessage("Please register before login")
           }
@@ -315,7 +359,7 @@ const OtpLogin = ({ navigation, route }) => {
           {
             <View style={{ position: "absolute", right: 20, top: 10 ,marginTop:4}}>
               <ButtonNavigate
-                handleOperation={() => { navigation.navigate("BasicInfo", { needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }) }}
+                handleOperation={() => { navigateToRegister() }}
                 backgroundColor="#353535"
                 style={{ color: 'white', fontSize: 13 ,height:18, }}
                 content="Register"
@@ -346,9 +390,15 @@ const OtpLogin = ({ navigation, route }) => {
 
       </View>
 
+      <View>
+ 
+        </View>
+
 
       <ScrollView contentContainerStyle={{ flex: 1 }} style={{ width: '100%' }}>
         <KeyboardAvoidingView>
+
+          
 
 
           <View
@@ -363,6 +413,7 @@ const OtpLogin = ({ navigation, route }) => {
               handleData={getMobile}
               maxLength={10}
               KeyboardType="numeric"
+              from="OTPLogin"
             ></TextInputRectangularWithPlaceholder>
 
             <TextInputRectangularWithPlaceholder
@@ -374,6 +425,22 @@ const OtpLogin = ({ navigation, route }) => {
           </View>
 
         </KeyboardAvoidingView>
+
+        {/* {
+        true &&
+        
+        <FastImage
+          style={{ width: 100, height: 100, alignSelf: 'center', marginTop: 10 }}
+          source={{
+            uri: gifUri, // Update the path to your GIF
+            priority: FastImage.priority.normal,
+          }}
+          resizeMode={FastImage.resizeMode.contain}
+        />
+      } */}
+
+
+        
 
 
 
@@ -391,6 +458,7 @@ const OtpLogin = ({ navigation, route }) => {
             }}>
               <PoppinsTextLeftMedium content={"I agree to the Terms & Conditions"} style={{ color: '#808080', marginHorizontal: 30, marginBottom: 20, fontSize: 15, marginLeft: 8, marginTop: 16 }}></PoppinsTextLeftMedium>
             </TouchableOpacity>
+            
           </View>
 
 
@@ -406,6 +474,8 @@ const OtpLogin = ({ navigation, route }) => {
             isChecked={isChecked && mobile?.length == 10 && name != ""}
           ></ButtonNavigateArrow>}
 
+          
+   
 
 
 
@@ -423,6 +493,7 @@ const OtpLogin = ({ navigation, route }) => {
         </ButtonNavigate>
 
         </View>} */}
+      
       </ScrollView>
     </LinearGradient>
   );
