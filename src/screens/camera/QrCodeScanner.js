@@ -43,7 +43,7 @@ import { useCameraDevice } from 'react-native-vision-camera';
 // import {useScanBarcodes, BarcodeFormat} from 'vision-camera-code-scanner';
 import { Camera } from 'react-native-vision-camera';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import { request, PERMISSIONS } from 'react-native-permissions';
+// import { request, PERMISSIONS } from 'react-native-permissions';
 
 
 const QrCodeScanner = ({ navigation }) => {
@@ -82,31 +82,31 @@ const QrCodeScanner = ({ navigation }) => {
   const isDistributor = userData?.user_type_id == 3
   console.log("Selector state", userData)
 
-  const [hasPermission, setHasPermission] = useState(null);
+  // const [hasPermission, setHasPermission] = useState(null);
 
-  useEffect(() => {
-    checkCameraPermission();
-  }, []);
+  // useEffect(() => {
+  //   checkCameraPermission();
+  // }, []);
 
-  const checkCameraPermission = async () => {
-    try {
-      const status = await requestCameraPermission();
-      console.log('Camera Permission Status:', status);
-      setHasPermission(status === 'granted');
-    } catch (error) {
-      console.error('Error checking camera permission:', error);
-    }
-  };
+  // const checkCameraPermission = async () => {
+  //   try {
+  //     const status = await requestCameraPermission();
+  //     console.log('Camera Permission Status:', status);
+  //     setHasPermission(status === 'granted');
+  //   } catch (error) {
+  //     console.error('Error checking camera permission:', error);
+  //   }
+  // };
 
-  const requestCameraPermission = async () => {
-    try {
-      const result = await request(PERMISSIONS.ANDROID.CAMERA);
-      return result;
-    } catch (error) {
-      console.error('Error requesting camera permission:', error);
-      return 'denied';
-    }
-  };
+  // const requestCameraPermission = async () => {
+  //   try {
+  //     const result = await request(PERMISSIONS.ANDROID.CAMERA);
+  //     return result;
+  //   } catch (error) {
+  //     console.error('Error requesting camera permission:', error);
+  //     return 'denied';
+  //   }
+  // };
 
   // Render the camera component if permission is granted
 
@@ -219,7 +219,7 @@ const QrCodeScanner = ({ navigation }) => {
     data: addBulkQrData,
     error: addBulkQrError,
     isLoading: addBulkQrIsLoading,
-    isError: addBulkQrIsError
+    isError: addBulkQrIsError 
   }] = useAddBulkQrMutation()
 
 

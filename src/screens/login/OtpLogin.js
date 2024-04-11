@@ -212,9 +212,6 @@ const OtpLogin = ({ navigation, route }) => {
         Keyboard.dismiss();
       }
     }
-
-
-
   };
 
   const clearData = useCallback(async () =>{
@@ -480,6 +477,7 @@ const OtpLogin = ({ navigation, route }) => {
 
 
         </View>
+        
         {error && <ErrorModal modalClose={modalClose} message={message} openModal={error}></ErrorModal>}
 
         {/* {registrationRequired && <View style={{width:"100%",alignItems:'center',justifyContent:"center",marginTop:20}}>
