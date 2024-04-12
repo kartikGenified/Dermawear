@@ -8,19 +8,19 @@ const AnimatedDots = (props) => {
     const moveThirdDotAnim = useRef(new Animated.Value(0)).current
     const moveFourthDotAnim = useRef(new Animated.Value(0)).current
 
-    // useEffect(()=>{
-    //     Animated.sequence([
-    //         Animated.timing(moveFirstDotAnim, {
-    //             toValue: 20,
-    //             duration: 1000,
-    //             useNativeDriver: false,
-    //           }),
-    //           Animated.timing(moveFirstDotAnim, {
-    //             toValue: 0,
-    //             duration: 1000,
-    //             useNativeDriver: false,
-    //           })
-    //     ]).start();
+    useEffect(()=>{
+        Animated.sequence([
+            Animated.timing(moveFirstDotAnim, {
+                toValue: 20,
+                duration: 1000,
+                useNativeDriver: false,
+              }),
+              Animated.timing(moveFirstDotAnim, {
+                toValue: 0,
+                duration: 1000,
+                useNativeDriver: false,
+              })
+        ]).start();
 
           setTimeout(() => {
             Animated.sequence([

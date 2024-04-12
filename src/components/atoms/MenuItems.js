@@ -13,6 +13,7 @@ const MenuItems = (props) => {
     const platformFontSize = Platform.OS === 'ios' ? 10 : 12
     const platformFontWeight = Platform.OS === 'ios' ? '500' : '600'
 
+    console.log("meu content", content)
     const ternaryThemeColor = useSelector(
         state => state.apptheme.ternaryThemeColor,
     )

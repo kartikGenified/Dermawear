@@ -67,20 +67,94 @@
 // }
 
 // export default DashboardMenuBox;
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, StyleSheet,ScrollView,Dimensions} from 'react-native';
 import MenuItems from '../atoms/MenuItems';
 import { BaseUrl } from '../../utils/BaseUrl';
+import { useGetkycStatusMutation } from '../../apiServices/kyc/KycStatusApi';
+import { useIsFocused } from '@react-navigation/native';
+import * as Keychain from 'react-native-keychain';
+
+
 
 
 const DashboardMenuBox=(props)=>{
     const data = props.data
     const navigation = props.navigation
     const width = Dimensions.get('window').width
+
+  const [showKyc, setShowKyc] = useState(true)
+    
+    
+
+    const [getKycStatusFunc, {
+        data: getKycStatusData,
+        error: getKycStatusError,
+        isLoading: getKycStatusIsLoading,
+        isError: getKycStatusIsError
+      }] = useGetkycStatusMutation()
+
+      const focused = useIsFocused()
+      
+  useEffect(() => {
+    const fetchOnPageActive = async () => {
+      try {
+        // Retrieve the credentials
+        const credentials = await Keychain.getGenericPassword();
+        if (credentials) {
+          console.log(
+            'Credentials successfully loaded for user ' + credentials?.username
+          );
+          const token = credentials?.username
+
+
+          token && getKycStatusFunc(token)
+
+
+        //   getMembership()
+          console.log("fetching getDashboardFunc, getKycStatusFunc, getBannerFunc, getWorkflowFunc, getFormFunc")
+        } else {
+          console.log('No credentials stored');
+        }
+      } catch (error) {
+        console.log("Keychain couldn't be accessed!", error);
+      }
+    }
+    fetchOnPageActive()
+  }, [focused])
+
+    
+    
+
+
+    useEffect(() => {
+        if (getKycStatusData) {
+          console.log("getKycStatusData", getKycStatusData)
+          if (getKycStatusData?.success) {
+            const tempStatus = Object.values(getKycStatusData?.body)
+    
+            setShowKyc(tempStatus.includes(false))
+    
+            console.log("showKyc",showKyc)
+    
+    
+          }
+        }
+        else if (getKycStatusError) {
+          setError(true)
+          setMessage("Can't get KYC status kindly retry after sometime.")
+          console.log("getKycStatusError", getKycStatusError)
+        }
+      }, [getKycStatusData, getKycStatusError])
+
     const handleMenuItemPress=(data)=>{
         if(data.substring(0,4).toLowerCase()==="scan" )
         {
-            navigation.navigate('QrCodeScanner')
+            if(getKycStatusData){
+                !showKyc ?  navigation.navigate('QrCodeScanner') : navigation.navigate("Verification")
+
+            }
+            console.log("show kyyyyyyyyyyy", showKyc,getKycStatusData)
         }
         else if(data.toLowerCase()==="passbook")
         {
