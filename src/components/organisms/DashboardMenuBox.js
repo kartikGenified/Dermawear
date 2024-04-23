@@ -151,7 +151,7 @@ const DashboardMenuBox=(props)=>{
         if(data.substring(0,4).toLowerCase()==="scan" )
         {
             if(getKycStatusData){
-                !showKyc ?  navigation.navigate('QrCodeScanner') : navigation.navigate("Verification")
+                !showKyc ?  navigation.navigate('QrCodeScanner') : navigation.navigate("QrCodeScanner")
 
             }
             console.log("show kyyyyyyyyyyy", showKyc,getKycStatusData)
