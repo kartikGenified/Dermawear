@@ -266,7 +266,7 @@ const OtpLogin = ({ navigation, route }) => {
         if (getNameData.message === "Not Found") {
           console.log("registrationRequired", registrationRequired)
           if (mobile?.length == 10) {
-            registrationRequired ? navigation.navigate('BasicInfo', { needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }) : navigateToOtp()
+            // registrationRequired ? navigation.navigate('BasicInfo', { needsApproval: needsApproval, userType: user_type, userId: user_type_id, name: name, mobile: mobile, navigatingFrom: "OtpLogin" }) : navigateToOtp()
             setError(true)
             setMessage("Please register before login")
           }
