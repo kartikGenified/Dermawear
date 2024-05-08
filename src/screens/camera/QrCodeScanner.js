@@ -768,6 +768,7 @@ const QrCodeScanner = ({ navigation }) => {
   // --------------------------------------------------------
 
   // getting verify qr data --------------------------
+  // getting verify qr data --------------------------
   useEffect(() => {
     if (verifyQrData) {
       console.log('Verify qr data', verifyQrData);
@@ -786,17 +787,32 @@ const QrCodeScanner = ({ navigation }) => {
       }
     }
     else if (verifyQrError) {
-      if (verifyQrError === undefined) {
 
-        setError(true)
-        setMessage("This QR is not activated yet")
+      if (verifyQrError.status == 401) {
+        const handleLogout = async () => {
+          try {
+
+            await AsyncStorage.removeItem('loginData');
+            navigation.navigate("Splash")
+            navigation.reset({ index: 0, routes: [{ name: 'Splash' }] }); // Navigate to Splash screen
+          } catch (e) {
+            console.log("error deleting loginData", e);
+          }
+        };
+        handleLogout();
       }
       else {
-        setError(true)
-        setMessage(verifyQrError.data?.message);
-
+        if (verifyQrError === undefined) {
+          setError(true)
+          setMessage("This QR is not activated yet")
+        }
+        else {
+          setError(true)
+          setMessage(verifyQrError.data?.message);
+        }
+        console.log('Verify qr error', verifyQrError.data.Error);
       }
-      console.log('Verify qr error', verifyQrError.data.Error);
+
 
     }
   }, [verifyQrData, verifyQrError]);

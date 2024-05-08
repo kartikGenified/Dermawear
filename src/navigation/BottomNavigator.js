@@ -32,6 +32,8 @@ function BottomNavigator({ navigation }) {
   const workflow = useSelector(state => state.appWorkflow.program)
 
   const [showKyc, setShowKyc] = useState(true)
+  const [error, setError] = useState(false)
+  const [message, setMessage] = useState("")
 
   const platformFontWeight = Platform.OS === "ios" ? "400" : "800"
   console.log("workflow", workflow, userData)

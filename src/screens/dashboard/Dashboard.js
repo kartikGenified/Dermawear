@@ -42,6 +42,7 @@ import messaging from '@react-native-firebase/messaging';
 import Close from 'react-native-vector-icons/Ionicons';
 import ModalWithBorder from '../../components/modals/ModalWithBorder';
 import ErrorModal from '../../components/modals/ErrorModal';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Dashboard = ({ navigation }) => {
@@ -213,54 +214,99 @@ const Dashboard = ({ navigation }) => {
 }, [fetchUserPointsHistoryData, fetchUserPointsHistoryError])
   
 
-  useEffect(() => {
-    if (getActiveMembershipData) {
-      // console.log("getActiveMembershipData", JSON.stringify(getActiveMembershipData))
-      if(getActiveMembershipData?.success)
+useEffect(() => {
+  if (getActiveMembershipData) {
+    console.log("getActiveMembershipData", JSON.stringify(getActiveMembershipData))
+    if (getActiveMembershipData.success) {
+      setMembership(getActiveMembershipData.body?.tier.name)
+    }
+  }
+  else if (getActiveMembershipError) {
+    console.log("getActiveMembershipError", getActiveMembershipError)
+    if (getActiveMembershipError.status == 401) {
+      const handleLogout = async () => {
+        try {
+
+          await AsyncStorage.removeItem('loginData');
+          navigation.navigate("Splash")
+          navigation.reset({ index: 0, routes: [{ name: 'Splash' }] }); // Navigate to Splash screen
+        } catch (e) {
+          console.log("error deleting loginData", e);
+        }
+      };
+      handleLogout();
+    }
+    else {
+      setError(true)
+      setMessage("Unable to fetch user point history.")
+    }
+  }
+}, [getActiveMembershipData, getActiveMembershipError])
+
+useEffect(() => {
+  if (getKycStatusData) {
+    console.log("getKycStatusData", getKycStatusData)
+    if (getKycStatusData.success) {
+      const tempStatus = Object.values(getKycStatusData.body)
+
+      setShowKyc(tempStatus.includes(false))
+
+      dispatch(
+        setKycData(getKycStatusData.body)
+      )
+
+
+    }
+  }
+  else if (getKycStatusError) {
+    console.log("getKycStatusError", getKycStatusError)
+    if(getKycStatusError.status == 401)
       {
-        setMembership(getActiveMembershipData?.body?.tier.name)
+        const handleLogout = async () => {
+          try {
+            
+            await AsyncStorage.removeItem('loginData');
+            navigation.navigate("Splash")
+            navigation.reset({ index: 0, routes: [{ name: 'Splash' }] }); // Navigate to Splash screen
+          } catch (e) {
+            console.log("error deleting loginData", e);
+          }
+        };
+        handleLogout();
       }
-    }
-    else if (getActiveMembershipError) {
+      else{
       setError(true)
-      setMessage("problem in fetching membership, kindly retry.")
-      console.log("getActiveMembershipError", getActiveMembershipError)
-    }
-  }, [getActiveMembershipData, getActiveMembershipError])
-
-  useEffect(() => {
-    if (getKycStatusData) {
-      console.log("getKycStatusData", getKycStatusData)
-      if (getKycStatusData?.success) {
-        const tempStatus = Object.values(getKycStatusData?.body)
-        
-        setShowKyc(tempStatus.includes(false))
-
-        dispatch(
-          setKycData(getKycStatusData?.body)
-        )
-
-
+      setMessage("Unable to fetch user point history.")
       }
-    }
-    else if (getKycStatusError) {
-      setError(true)
-      setMessage("Can't get KYC status kindly retry after sometime.")
-      console.log("getKycStatusError", getKycStatusError)
-    }
-  }, [getKycStatusData, getKycStatusError])
+  }
+}, [getKycStatusData, getKycStatusError])
 
-  useEffect(() => {
-    if (getDashboardData) {
-      // console.log("getDashboardData", getDashboardData)
-      setDashboardItems(getDashboardData?.body?.app_dashboard)
+useEffect(() => {
+  if (getDashboardData) {
+    console.log("getDashboardData", getDashboardData)
+    setDashboardItems(getDashboardData.body.app_dashboard)
+  }
+  else if (getDashboardError) {
+    console.log("getDashboardError", getDashboardError)
+    if (getDashboardError.status == 401) {
+      const handleLogout = async () => {
+        try {
+
+          await AsyncStorage.removeItem('loginData');
+          navigation.navigate("Splash")
+          navigation.reset({ index: 0, routes: [{ name: 'Splash' }] }); // Navigate to Splash screen
+        } catch (e) {
+          console.log("error deleting loginData", e);
+        }
+      };
+      handleLogout();
     }
-    else if (getDashboardError) {
+    else {
       setError(true)
-      setMessage("Can't get dashboard data, kindly retry.")
-      console.log("getDashboardError", getDashboardError)
+      setMessage("Unable to fetch user point history.")
     }
-  }, [getDashboardData, getDashboardError])
+  }
+}, [getDashboardData, getDashboardError])
 
   
 
