@@ -5,7 +5,8 @@ import {
   Image,
   TouchableOpacity,
   Keyboard,
-  Text
+  Text,
+  BackHandler
 } from "react-native";
 import { useGetLoginOtpMutation } from "../../apiServices/login/otpBased/SendOtpApi";
 import PoppinsTextMedium from "../../components/electrons/customFonts/PoppinsTextMedium";
@@ -17,12 +18,13 @@ import OtpInput from "../../components/organisms/OtpInput";
 import { useVerifyOtpForNormalUseMutation } from "../../apiServices/otp/VerifyOtpForNormalUseApi";
 import * as Keychain from 'react-native-keychain';
 import { useRedeemGiftsMutation } from "../../apiServices/gifts/RedeemGifts";
-import { useRedeemCashbackMutation } from "../../apiServices/cashback/CashbackRedeemApi";
+import { useGetWalletBalanceMutation, useRedeemCashbackMutation } from "../../apiServices/cashback/CashbackRedeemApi";
 import { useGetLoginOtpForVerificationMutation } from "../../apiServices/otp/GetOtpApi";
 import { useAddCashToBankMutation } from "../../apiServices/cashback/CashbackRedeemApi";
 import Geolocation from '@react-native-community/geolocation';
 import { useCreateCouponRequestMutation } from "../../apiServices/coupons/getAllCouponsApi";
 import {GoogleMapsKey} from "@env"
+import { useTranslation } from "react-i18next";
 
 
 const OtpVerification = ({navigation,route}) => {
@@ -35,10 +37,10 @@ const OtpVerification = ({navigation,route}) => {
   const [showRedeemButton,setShowRedeemButton] = useState(false)
   const [location,setLocation] = useState()
   const timeOutCallback = useCallback(() => setTimer(currTimer => currTimer - 1), []);
-
+  const walletBalance = useSelector(state=>state.pointWallet.walletBalance)
   const pointsConversion = useSelector(state=>state.redemptionData.pointConversion)
   const cashConversion = useSelector(state=>state.redemptionData.cashConversion)
-console.log("Point conversion and cash conversion data",pointsConversion,cashConversion)
+console.log("Point conversion and cash conversion data",pointsConversion,cashConversion,walletBalance)
   const [
     verifyOtpForNormalUseFunc,
     {
@@ -64,6 +66,8 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
       isError: redeemCashbackIsError,
     },
   ] = useRedeemCashbackMutation();
+
+  
 
   const [addCashToBankFunc,{
     data:addCashToBankData,
@@ -92,6 +96,12 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
   const type = route.params.type
   const selectedAccount = route.params?.selectedAccount
   const brand_product_code = route.params?.brand_product_code
+  const couponCart = route.params?.couponCart
+
+  const {t} = useTranslation()
+  
+
+  console.log("couponCart",couponCart)
   const handleCashbackRedemption=async()=>{
     const credentials = await Keychain.getGenericPassword();
     if (credentials) {
@@ -106,11 +116,11 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
           platform: "mobile",
           cash: cashConversion,
           remarks: "demo",
-          state: location.state===undefined ? "N/A" : location.state,
-          district: location.district===undefined ? "N/A" : location.district,
-          city: location.city===undefined ? "N/A" : location.city,
-          lat: location.lat,
-          log: location.lon,
+          state: location?.state===undefined ? "N/A" : location?.state,
+          district: location?.district===undefined ? "N/A" : location?.district,
+          city: location?.city===undefined ? "N/A" : location?.city,
+          lat: location?.lat===undefined ? "N/A" : location?.lat,
+          log: location?.lon===undefined ? "N/A" : location?.lon,
           active_beneficiary_account_id: selectedAccount
         },
       }
@@ -119,6 +129,8 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
     }
 
   }
+
+  
 
   useEffect(() => {
     timer > 0 && setTimeout(timeOutCallback, 1000);
@@ -320,7 +332,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
       const user_type = userData.user_type;
       const type = "redemption"
       
-      verifyOtpForNormalUseFunc({ mobile, name, otp, user_type_id, user_type,type });
+      verifyOtpForNormalUseFunc({ mobile, name, otp, user_type_id, user_type,type});
       
   }
   const modalClose = () => {
@@ -341,7 +353,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
     cart && cart.map((item, index) => {
       tempID.push(((item.gift_id)))
     })
-    console.log("tempID", tempID)
+    console.log("tempID", tempID,userData,address)
 
     
       const data = {
@@ -354,7 +366,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
         "app_user_id": String(userData.id),
         "remarks": "demo",
         "type": "point",
-        "address_id": address.data.id
+        "address_id": address.id
       }
       const params = {
         token: token,
@@ -364,19 +376,28 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
     
     }
     else if(type==="Cashback"){
-      const params = {
-        data :{ user_type_id: userData.user_type_id,
-         user_type: userData.user_type,
-         platform_id: 1,
-         platform: 'mobile',
-         points: Number(pointsConversion),
-         approved_by_id: 1,
-         app_user_id: userData.id,
-         remarks: 'demo'},
-         token:token
-       };
-       redeemCashbackFunc(params)
-       console.log("params",params)
+      if(walletBalance<cashConversion)
+      {
+        const params = {
+          data :{ 
+            user_type_id: userData.user_type_id,
+           user_type: userData.user_type,
+           platform_id: 1,
+           platform: 'mobile',
+           points: Number(pointsConversion),
+           approved_by_id: 1,
+           app_user_id: userData.id,
+           remarks: 'demo'
+          },
+           token:token
+         };
+         redeemCashbackFunc(params)
+         console.log("Cashbackparams",params)
+      }
+      else{
+        handleCashbackRedemption()
+      }
+      
     }
     else if(type==="Coupon"){
       
@@ -395,7 +416,9 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
          district: location.district,
          city:location.city,
          lat: location.lat,
-         log: location.lon
+         log: location.lon,
+         denomination: cart[0]?.denomination 
+         
         },
          token:token,
        };
@@ -405,6 +428,8 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
   }
 
   }
+
+
 
   const handleOtpResend=()=>{
     if (!timer) {
@@ -416,6 +441,10 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
   const getMobile = (data) => {
     console.log("mobile number from mobile textinput", data)
     setMobile(data);
+    const reg = '^([0|+[0-9]{1,5})?([6-9][0-9]{9})$';
+    const mobReg = new RegExp(reg)
+    if(mobReg.test(data))
+      {
     if (data !== undefined) {
       if (data.length === 10) {
         const user_type = userData.user_type;
@@ -432,6 +461,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
 
         Keyboard.dismiss();
       }
+    }
     }
   };
 
@@ -472,7 +502,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
 
         <PoppinsTextMedium
           style={{ fontSize: 20, color: "#ffffff", marginLeft: 10 }}
-          content={"Verify OTP"}
+          content={t("Verify OTP")}
         ></PoppinsTextMedium>
 
         {error && (
@@ -480,6 +510,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
             modalClose={modalClose}
             message={message}
             openModal={error}
+            navigateTo=""
           ></ErrorModal>
         )}
         {success && (
@@ -493,7 +524,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
         )}
       </View>
       <View style={{alignItems:'center',justifyContent:"center",width:'100%',backgroundColor:ternaryThemeColor,padding:20,marginBottom:60,marginTop:20}}>
-        <PoppinsTextMedium style={{color:'white',fontSize:16}} content="OTP has been sent to your registered mobile number"></PoppinsTextMedium>
+        <PoppinsTextMedium style={{color:'white',fontSize:16}} content={t("OTP has been sent to your registered mobile number")}></PoppinsTextMedium>
       </View>
       <TextInputRectangularWithPlaceholder
         placeHolder="Mobile No"
@@ -514,7 +545,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
           getOtpFromComponent={getOtpFromComponent}
           color={"white"}
         ></OtpInput>
-        <PoppinsTextMedium content = "Enter OTP" style={{color:'black',fontSize:20,fontWeight:'800'}}></PoppinsTextMedium>
+        <PoppinsTextMedium content = {t("Enter OTP")} style={{color:'black',fontSize:20,fontWeight:'800'}}></PoppinsTextMedium>
         <View style={{alignItems:'center',justifyContent:'center'}}>
               <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:4}}>
               <Image
@@ -528,7 +559,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
                   <Text style={{color:ternaryThemeColor,marginLeft:4}}>{timer}</Text>
               </View>
               <View style={{alignItems:'center',justifyContent:'center'}}>
-                <Text style={{color:ternaryThemeColor,marginTop:10}}>Didn't recieve any Code?</Text>
+                <Text style={{color:ternaryThemeColor,marginTop:10}}>{t("Didn't recieve any Code")}?</Text>
                 
                   {timer===0 &&
                                   <Text onPress={()=>{handleOtpResend()}} style={{color:ternaryThemeColor,marginTop:6,fontWeight:'600',fontSize:16}}>Resend Code</Text>
@@ -542,7 +573,7 @@ console.log("Point conversion and cash conversion data",pointsConversion,cashCon
         <TouchableOpacity onPress={()=>{
           finalGiftRedemption()
         }} style={{height:50,width:140,alignItems:'center',justifyContent:'center',backgroundColor:ternaryThemeColor,borderRadius:4}}>
-          <PoppinsTextMedium content = "Redeem" style ={{color:'white',fontSize:20,fontWeight:'700'}}></PoppinsTextMedium>
+          <PoppinsTextMedium content = {t("redeem")} style ={{color:'white',fontSize:20,fontWeight:'700'}}></PoppinsTextMedium>
         </TouchableOpacity>
       </View>}
     </View>

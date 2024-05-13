@@ -245,10 +245,10 @@ const BasicInfo = ({ navigation, route }) => {
 
         }
 
-        const addressComponent = json.results[0].address_components
+        const addressComponent = json.results[0]?.address_components
         console.log("addressComponent", addressComponent)
-        for (let i = 0; i <= addressComponent.length; i++) {
-          if (i === addressComponent.length) {
+        for (let i = 0; i <= addressComponent?.length; i++) {
+          if (i === addressComponent?.length) {
             dispatch(setLocation(locationJson))
             setLocation(locationJson)
           }
@@ -256,13 +256,13 @@ const BasicInfo = ({ navigation, route }) => {
             if (addressComponent[i].types.includes("postal_code")) {
               console.log("inside if")
 
-              console.log(addressComponent[i].long_name)
+              console.log(addressComponent[i]?.long_name)
               locationJson["postcode"] = addressComponent[i].long_name
             }
             else if (addressComponent[i].types.includes("country")) {
-              console.log(addressComponent[i].long_name)
+              console.log(addressComponent[i]?.long_name)
 
-              locationJson["country"] = addressComponent[i].long_name
+              locationJson["country"] = addressComponent[i]?.long_name
             }
             else if (addressComponent[i].types.includes("administrative_area_level_1")) {
               console.log(addressComponent[i].long_name)

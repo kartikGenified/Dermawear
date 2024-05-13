@@ -1,28 +1,41 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet, TextInput} from 'react-native';
+import {View, StyleSheet, TextInput,Keyboard} from 'react-native';
 import PoppinsTextMedium from '../../electrons/customFonts/PoppinsTextMedium';
 const TextInputNumericRectangle = props => {
   const [value, setValue] = useState(props.value);
+  const [keyboardShow, setKeyboardShow] = useState(false);
   const placeHolder = props.placeHolder;
   const maxLength = props.maxLength;
   const label = props.label
-  const required = props.required ===undefined ? props.jsonData.required : props.required
-
+  const required = props.required
   const isEditable = props.isEditable
   console.log("label",isEditable)
-
+  Keyboard.addListener('keyboardDidShow',()=>{
+    setKeyboardShow(true)
+})
+Keyboard.addListener('keyboardDidHide',()=>{
+    setKeyboardShow(false)
+})
   useEffect(()=>{
     if(props.value!==undefined)
     {
       let tempJsonData = {...props.jsonData, value: props.value};
       console.log(tempJsonData);
       props.handleData(tempJsonData);
-    }
+    } 
 
   },[props.value])
+  useEffect(()=>{
+    props.handleData({...props.jsonData,value:value})
+  },[keyboardShow])
 
   const handleInput = text => {
-    setValue(text);
+    if(!text.includes(".") && !text.includes("-") && !text.includes(",") && !text.includes(" ")){
+      setValue(text)
+      props.handleData(text, props.title)
+    
+  }
+
   };
   const handleInputEnd = () => {
     let tempJsonData = {...props.jsonData, value: value};

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList, Keyboard, Pressable, Modal, Text, KeyboardAvoidingView, ScrollView, Alert } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Dimensions, FlatList, Keyboard, Pressable, Modal, Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import PoppinsTextMedium from '../../components/electrons/customFonts/PoppinsTextMedium';
 import RectanglarUnderlinedTextInput from '../../components/atoms/input/RectanglarUnderlinedTextInput';
@@ -17,7 +17,6 @@ import ProfileDropDown from '../../components/atoms/dropdown/ProfileDropDown';
 import moment from 'moment';
 import TextInputRectangularWithPlaceholder from '../../components/atoms/input/TextInputRectangularWithPlaceholder';
 import DisplayOnlyTextInput from '../../components/atoms/DisplayOnlyTextInput';
-import TextInputGST from '../../components/atoms/input/TextInputGST';
 
 
 const EditProfile = ({ navigation, route }) => {
@@ -27,19 +26,14 @@ const EditProfile = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [profileImage, setProfileImage] = useState(route.params?.savedImage)
   const [filename, setFilename] = useState(route.params?.savedImage)
-  const [gstin, setGstin] = useState('');
   const [message, setMessage] = useState();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [marginB, setMarginB] = useState(0)
-  const [isValidEmail, setIsValidEmail] = useState(true)
+  const [isValidEmail,setIsValidEmail] = useState(true)
   const [isClicked, setIsClicked] = useState(false)
-  const [submitProfile, setSubmitProfile] = useState(false)
-  const[gstinValid,setGStinValid] = useState(true)
+  const [submitProfile,setSubmitProfile] = useState(false)
   // const userData = useSelector(state=>state.appusersdata.userData)
-
-
-
   console.log("saved image", route.params?.savedImage)
   // console.log("route.params.savedImage",route.params.savedImage)
   const ternaryThemeColor = useSelector(
@@ -78,7 +72,7 @@ const EditProfile = ({ navigation, route }) => {
       console.log("updateProfileData", updateProfileData)
       setMessage("Profile Updated Successfully")
       setSuccess(true)
-      setIsClicked(false);
+      setIsClicked(true);
     }
     else if (updateProfileError) {
       console.log("updateProfileError", updateProfileError)
@@ -101,12 +95,13 @@ const EditProfile = ({ navigation, route }) => {
 
   useEffect(() => {
     if (uploadImageData) {
-      console.log(uploadImageData);
+      console.log("uploadImageData",uploadImageData);
       if (uploadImageData.success) {
-        setFilename(uploadImageData.body.fileLink)
+        setFilename(uploadImageData?.body?.fileLink)
         setModalVisible(false)
-        setMessage(uploadImageData.message)
-        setSuccess(true)
+        //  setMessage(uploadImageData.message)
+        //  setSuccess(true)
+        
 
       }
     } else {
@@ -114,8 +109,8 @@ const EditProfile = ({ navigation, route }) => {
     }
   }, [uploadImageData, uploadImageError]);
 
-  const handleData = (data, title, jsonData) => {
-    console.log("djnjbdhdndddjj",data, title, jsonData)
+  const handleData = (data, title,jsonData) => {
+    // console.log("djnjbdhdndddjj",data, title)
 
     let submissionData = [...changedFormValues]
     let removedValues = submissionData.filter((item, index) => {
@@ -123,59 +118,29 @@ const EditProfile = ({ navigation, route }) => {
     })
 
     if (title == "email") {
-      if (jsonData?.required) {
-        console.log("email data", typeof data, data.length)
+      if(jsonData?.required)
+      {
+        console.log("email data", typeof data,data.length)
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         const checkEmail = emailRegex.test(data)
         setIsValidEmail(checkEmail);
-
+        
       }
-      else {
-        if (data.length > 0) {
+      else{
+        if(data.length>0)
+        {
           const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
           const checkEmail = emailRegex.test(data)
           setIsValidEmail(checkEmail);
         }
-        else if (data.length === 0) {
+        else if(data.length===0)
+        {
           setIsValidEmail(true)
         }
       }
     }
-    if (title === "gstin") {
-      console.log("data of gstin", data);
-      const GSTIN_REGEX = /\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
-
-
-      if ( data !== undefined && data.length !== 0 && data!=null && data!=="") {
-        console.log("data of gstin", data.toString());
-        if (GSTIN_REGEX.test(data.trim())) {
-          // Valid GSTIN
-          console.log("valid to hai");
-          setGstin(data);
-          setGStinValid(true);
-          console.log("the gstin", gstin, gstin.length)
-        } else {
-          console.log("nahi hai valid")
-        console.log("data of gstin", data.length,data);
-          
-          // Invalid GSTIN
-          // setError(true);
-          // setMessage("GSTIN is Invalid");
-          setGStinValid(false);
-          console.log("the gstin", gstin)
-
-        }
-      }
-      else{
-        setGStinValid(true)
-        setGstin(data)
-        console.log("the gstin", gstin)
-
-      }
-    }
     
-
-
+    
     removedValues.push({
       "value": data,
       "name": title
@@ -199,11 +164,11 @@ const EditProfile = ({ navigation, route }) => {
   };
 
   const handleButtonPress = () => {
-    if (!isClicked) {
+    if(!isClicked){
       updateProfile();
       setIsClicked(true);
     }
-
+   
     console.log("buttonpressed");
   };
 
@@ -226,41 +191,28 @@ const EditProfile = ({ navigation, route }) => {
   }
 
   const submitProfileData = async (tempData) => {
-
     console.log("tempData", tempData)
     const credentials = await Keychain.getGenericPassword();
-
     if (credentials) {
       console.log(
         'Credentials successfully loaded for user ' + credentials.username
       );
       const token = credentials.username
       const params = { token: token, data: tempData }
-      console.log("params from submitProfile", gstinValid)
-      if (isValidEmail && gstinValid) {
+      console.log("params from submitProfile", params)
+      if(isValidEmail){
         setTimeout(() => {
           updateProfileFunc(params)
-          navigation.navigate("Profile")
         }, 2000);
       }
-      else {
-        if(!isValidEmail){
-          setError(true)
-          setMessage("Please enter a valid email")
-          setIsClicked(false);
-        }
-        else if(!gstinValid){
-          setError(true)
-          setMessage("Please enter a valid gstin")
-          setIsClicked(false);
-        }
-      
+      else{
+        setError(true)
+        setMessage("Please enter a valid email")
+        setIsClicked(false);
       }
-
+    
     }
   }
-
-
 
   const handleImageUpload = async () => {
     const result = await launchImageLibrary();
@@ -277,16 +229,15 @@ const EditProfile = ({ navigation, route }) => {
       };
       const uploadFile = new FormData();
       uploadFile.append('image', imageData);
-
       const getToken = async () => {
         const credentials = await Keychain.getGenericPassword();
         const token = credentials.username;
-        uploadImageFunc({ body: uploadFile, token: token });
+        uploadImageFunc({ body: uploadFile,token:token });
+       
+    }
 
-      }
-
-      getToken()
-
+    getToken()
+      
     }
     else {
       console.log("else")
@@ -346,8 +297,8 @@ const EditProfile = ({ navigation, route }) => {
       )}
       {success && (
         <MessageModal
-          navigateTo={isClicked ? "Profile" : undefined}
-          modalClose={modalClose}
+          navigateTo={isClicked ? "Profile": undefined}
+          modalClose={modalClose} 
           title="Success"
           message={message}
           openModal={success}></MessageModal>
@@ -368,8 +319,8 @@ const EditProfile = ({ navigation, route }) => {
       <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", backgroundColor: ternaryThemeColor, height: '20%' }}>
         <View style={{ backgroundColor: "white", height: 110, width: 110, borderRadius: 50, alignItems: "center", justifyContent: "center", flexDirection: "row", borderWidth: 1, borderColor: '#DDDDDD', marginBottom: 40, marginLeft: 20 }}>
           {profileImage !== route.params?.savedImage && profileImage !== null && <Image style={{ height: 98, width: 98, borderRadius: 49, resizeMode: "contain" }} source={{ uri: profileImage.uri }}></Image>}
-          {profileImage === route.params?.savedImage && <Image style={{ height: 98, width: 98, borderRadius: 49, resizeMode: "contain" }} source={{ uri: profileImage }}></Image>}
-          {(profileImage === null || profileImage == undefined) && <Image style={{ height: 58, width: 58, resizeMode: "contain", marginRight: '92%' }} source={(require('../../../assets/images/userGrey.png'))}></Image>}
+          {profileImage === route.params?.savedImage && <Image style={{ height: 98, width: 98, borderRadius: 49, resizeMode: "contain" }} source={{ uri:profileImage }}></Image>}
+          {(profileImage === null || profileImage == undefined) && <Image style={{ height: 58, width: 58, resizeMode: "contain", marginRight:'92%' }} source={(require('../../../assets/images/userGrey.png'))}></Image>}
 
         </View>
         <TouchableOpacity onPress={() => {
@@ -387,82 +338,80 @@ const EditProfile = ({ navigation, route }) => {
 
             formFields && formValues && formFields.map((item, index) => {
               if (item.type === "text") {
-                if (item.name === "aadhar") {
-                  return (
+                if(item.name==="aadhar")
+                {
+                  return(
                     <DisplayOnlyTextInput
-                      key={index}
-                      data={formValues[index] === null || formValues[index] === undefined ? 'No data available' : formValues[index]}
-                      title={item.label}
-                      photo={require('../../../assets/images/eye.png')}>
+                    key={index}
+                    data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : formValues[index]}
+                    title={item.label}
+                    photo={require('../../../assets/images/eye.png')}>
 
-                    </DisplayOnlyTextInput>
+                  </DisplayOnlyTextInput>
                   )
                 }
-                else if (item.name === "pan") {
-                  return (
+                else if(item.name==="pan")
+                {
+                  return(
                     <DisplayOnlyTextInput
-                      key={index}
-                      data={formValues[index] === null || formValues[index] === undefined ? 'No data available' : formValues[index]}
-                      title={item.label}
-                      photo={require('../../../assets/images/eye.png')}>
+                    key={index}
+                    data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : formValues[index]}
+                    title={item.label}
+                    photo={require('../../../assets/images/eye.png')}>
 
-                    </DisplayOnlyTextInput>
+                  </DisplayOnlyTextInput>
                   )
                 }
-
-                else if (item.name === "name") {
-                  return (
+                else if(item.name==="name")
+                {
+                  return(
                     <DisplayOnlyTextInput
-                      key={index}
-                      data={formValues[index] === null || formValues[index] === undefined ? 'No data available' : formValues[index]}
-                      title={item.label}
-                      photo={require('../../../assets/images/eye.png')}>
+                    key={index}
+                    data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : formValues[index]}
+                    title={item.label}
+                    photo={require('../../../assets/images/eye.png')}>
 
-                    </DisplayOnlyTextInput>
+                  </DisplayOnlyTextInput>
                   )
                 }
-                else if (item.name === "mobile") {
-                  return (
+                else if(item.name==="mobile")
+                {
+                  return(
                     <DisplayOnlyTextInput
-                      key={index}
-                      data={formValues[index] === null || formValues[index] === undefined ? 'No data available' : formValues[index]}
-                      title={item.label}
-                      photo={require('../../../assets/images/eye.png')}>
+                    key={index}
+                    data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : formValues[index]}
+                    title={item.label}
+                    photo={require('../../../assets/images/eye.png')}>
 
-                    </DisplayOnlyTextInput>
+                  </DisplayOnlyTextInput>
                   )
                 }
-                else if (item.name === "enrollment_date") {
-                  return (
+                else if(item.name==="enrollment_date")
+                {
+                  return(
                     <DisplayOnlyTextInput
-                      key={index}
-                      data={formValues[index] === null || formValues[index] === undefined ? 'No data available' : formValues[index]}
-                      title={item.label}
-                      photo={require('../../../assets/images/eye.png')}>
+                    key={index}
+                    data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : formValues[index]}
+                    title={item.label}
+                    photo={require('../../../assets/images/eye.png')}>
 
-                    </DisplayOnlyTextInput>
+                  </DisplayOnlyTextInput>
                   )
                 }
-
-                else if (item?.name?.includes("gstin")) {
-                  return (
-                    <TextInputRectangularWithPlaceholder jsonData={item} placeHolder={formFields?.[index]?.label} pressedSubmit={pressedSubmit} key={index} handleData={handleData} label={item.label} title={item.name} value={formValues[index] != undefined ? formValues[index] : ""}></TextInputRectangularWithPlaceholder>
-                  )
-                }
-
-                else if (item?.name?.split("_").includes("mobile")) {
-                  return (
-                    <TextInputRectangularWithPlaceholder jsonData={item} placeHolder={formFields?.[index]?.label} pressedSubmit={pressedSubmit} key={index} handleData={handleData} label={item.label} title={item.name} value={formValues[index] != undefined ? formValues[index] : ""}></TextInputRectangularWithPlaceholder>
+                else if(item?.name?.split("_").includes("mobile"))
+                {
+                  return(
+                    <TextInputRectangularWithPlaceholder jsonData = {item} placeHolder={formFields?.[index]?.label } pressedSubmit={pressedSubmit} key={index} handleData={handleData} label={item.label} title={item.name} value={formValues[index] != undefined ? formValues[index] : ""}></TextInputRectangularWithPlaceholder>
 
                   )
                 }
-                else {
+                else{
                   return (
 
-                    <TextInputRectangularWithPlaceholder jsonData={item} placeHolder={formFields?.[index]?.label} pressedSubmit={pressedSubmit} key={index} handleData={handleData} label={item.label} title={item.name} value={formValues[index] != undefined ? formValues[index] : ""}></TextInputRectangularWithPlaceholder>
+                    <TextInputRectangularWithPlaceholder jsonData = {item} placeHolder={formFields?.[index]?.label } pressedSubmit={pressedSubmit} key={index} handleData={handleData} label={item.label} title={item.name} value={formValues[index] != undefined ? formValues[index] : ""}></TextInputRectangularWithPlaceholder>
                   )
                 }
-
+                
               }
               else if (item.type === "date") {
                 return (

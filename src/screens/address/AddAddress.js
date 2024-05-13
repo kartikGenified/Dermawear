@@ -105,8 +105,8 @@ const AddAddress = ({ navigation }) => {
 
           const addressComponent = json?.results[0]?.address_components;
           console.log("addressComponent", addressComponent);
-          for (let i = 0; i <= addressComponent.length; i++) {
-            if (i === addressComponent.length) {
+          for (let i = 0; i <= addressComponent?.length; i++) {
+            if (i === addressComponent?.length) {
               dispatch(setLocation(locationJson));
               setLocation(locationJson);
             } else {
@@ -149,9 +149,13 @@ const AddAddress = ({ navigation }) => {
 
           console.log("formattedAddressArray", locationJson);
           setLocation(locationJson);
+        }).catch((e)=>{
+          console.log("E",e);
         });
     });
   }, []);
+
+
   useEffect(() => {
     if (getLocationFormPincodeData) {
       console.log("getLocationFormPincodeData", getLocationFormPincodeData);

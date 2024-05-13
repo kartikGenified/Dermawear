@@ -254,8 +254,6 @@ useEffect(() => {
       dispatch(
         setKycData(getKycStatusData.body)
       )
-
-
     }
   }
   else if (getKycStatusError) {
@@ -337,10 +335,9 @@ useEffect(() => {
 
         const addressComponent = json?.results[0]?.address_components
         // console.log("addressComponent", addressComponent)
-        for (let i = 0; i <= addressComponent.length; i++) {
+        for (let i = 0; i <= addressComponent?.length; i++) {
           if (i === addressComponent.length) {
             dispatch(setLocation(locationJson))
-
           }
           else {
             if (addressComponent[i].types.includes("postal_code")) {
@@ -376,7 +373,9 @@ useEffect(() => {
 
         console.log("formattedAddressArray", locationJson)
 
-      })
+      }).catch((e)=>{
+        console.log("E",e);
+      });
     })
 
   }, [])

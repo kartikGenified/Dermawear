@@ -18,7 +18,7 @@ import redemptionDataSlice from './slices/redemptionDataSlice';
 import fcmTokenSlice from './slices/fcmTokenSlice';
 import userMappingSlice from './slices/userMappingSlice';
 import internetSlice from './slices/internetSlice';
-
+import pointWalletSlice from './slices/pointWalletSlice';
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
@@ -38,6 +38,7 @@ export const store = configureStore({
     fcmToken: fcmTokenSlice,
     userMapping: userMappingSlice,
     internet: internetSlice,
+    pointWallet:pointWalletSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware, internetMiddleware), // Include networkMiddleware
