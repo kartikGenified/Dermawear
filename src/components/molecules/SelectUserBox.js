@@ -29,7 +29,6 @@ const SelectUserBox = (props) => {
 
 
 
-
     const checkRegistrationRequired = () => {
         setBoxColor(color)
         setTimeout(() => {

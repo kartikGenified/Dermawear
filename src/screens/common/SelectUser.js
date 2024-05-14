@@ -107,6 +107,8 @@ const SelectUser = ({navigation}) => {
     const manualApproval = useSelector(state => state.appusers.manualApproval)
     const autoApproval = useSelector(state => state.appusers.autoApproval)
     const registrationRequired = useSelector(state => state.appusers.registrationRequired)
+
+    
     console.log("registration required",registrationRequired)
 
   const width = Dimensions.get('window').width;
