@@ -6,7 +6,7 @@ export const AppMembershipApi = baseApi.injectEndpoints({
     getActiveMembership: builder.mutation({
     query: (token) => {
     return {
-    method: "GET",
+    method: "POST",
     url: `/api/app/membership/active`,
     headers: {
     "Content-Type": "application/json",
