@@ -395,7 +395,7 @@ const Profile = ({ navigation }) => {
                 });
               }}
               style={{ height: 40, width: 40, borderRadius: 20, backgroundColor: "white", borderWidth: 1, borderColor: ternaryThemeColor, alignItems: "center", justifyContent: 'center' }}>
-              <Edit name="edit" size={20} color={ternaryThemeColor}></Edit>
+              <Edit accessibilityLabel='edit'  name="edit" size={20} color={ternaryThemeColor}></Edit>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
