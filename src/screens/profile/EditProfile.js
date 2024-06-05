@@ -17,6 +17,7 @@ import ProfileDropDown from '../../components/atoms/dropdown/ProfileDropDown';
 import moment from 'moment';
 import TextInputRectangularWithPlaceholder from '../../components/atoms/input/TextInputRectangularWithPlaceholder';
 import DisplayOnlyTextInput from '../../components/atoms/DisplayOnlyTextInput';
+import AnimatedDots from '../../components/animations/AnimatedDots';
 
 
 const EditProfile = ({ navigation, route }) => {
@@ -433,7 +434,7 @@ const EditProfile = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => {
             handleButtonPress()
           }} style={{ height: 40, width: 200, backgroundColor: ternaryThemeColor, borderRadius: 4, alignItems: 'center', justifyContent: "center" }}>
-            <PoppinsTextMedium style={{ color: 'white', fontWeight: '700', fontSize: 16 }} content="Update Profile"></PoppinsTextMedium>
+        {isClicked == true ?<AnimatedDots color="white"/> : <PoppinsTextMedium style={{ color: 'white', fontWeight: '700', fontSize: 16 }} content="Update Profile"></PoppinsTextMedium> }  
           </TouchableOpacity>
         </View>}
 

@@ -28,6 +28,7 @@ import { useGetAppDashboardDataMutation } from '../../apiServices/dashboard/AppU
 import { setDashboardData } from '../../../redux/slices/dashboardDataSlice';
 import * as Progress from 'react-native-progress';
 import { user_type_option } from '../../utils/usertTypeOption';
+import MaintenanceModal from '../../components/modals/MaintenanceModal';
 
 
 
@@ -44,6 +45,7 @@ const Splash = ({ navigation }) => {
   const [minVersionSupport, setMinVersionSupport] = useState(false)
   const [error, setError] = useState(false);
   const[userList,setUserList] = useState();
+  const[maintananceModal, setMaintananceModal] = useState()
   // const [isAlreadyIntroduced, setIsAlreadyIntroduced] = useState(null);
   // const [gotLoginData, setGotLoginData] = useState()
   const isConnected = useSelector(state => state.internet.isConnected);
@@ -186,7 +188,7 @@ const Splash = ({ navigation }) => {
       }
       if (Platform.OS == 'android') {
         LocationServicesDialogBox.checkLocationServicesIsEnabled({
-          message: "<h2 style='color: #0af13e'>Use Location ?</h2>Bata wants to change your device settings:<br/><br/>Enable location to use the application.<br/><br/><a href='#'>Learn more</a>",
+          message: "<h2 style='color: #0af13e'>Use Location ?</h2>Tibcon wants to change your device settings:<br/><br/>Enable location to use the application.<br/><br/><a href='#'>Learn more</a>",
           ok: "YES",
           cancel: "NO",
           enableHighAccuracy: true, // true => GPS AND NETWORK PROVIDER, false => GPS OR NETWORK PROVIDER
@@ -543,6 +545,7 @@ const Splash = ({ navigation }) => {
     else if (getAppThemeError) {
       console.log("getAppThemeIsError", getAppThemeIsError)
       console.log("getAppThemeError", getAppThemeError)
+      setMaintananceModal()
     }
    
   }, [getAppThemeData,getAppThemeError,locationEnabled,connected])
@@ -579,6 +582,12 @@ const Splash = ({ navigation }) => {
 
           message={message}
           openModal={error}></ErrorModal>}
+
+        {
+          maintananceModal && 
+          <MaintenanceModal/>
+        }
+
         {
       getAppThemeIsLoading ||  getUsersDataIsLoading && 
       <Progress.Circle color='yellow' size={100} indeterminate={true} />

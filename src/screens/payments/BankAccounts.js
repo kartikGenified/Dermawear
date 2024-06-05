@@ -25,6 +25,7 @@ import * as Keychain from 'react-native-keychain';
 import PoppinsText from '../../components/electrons/customFonts/PoppinsText';
 import { useDeleteBankMutation } from '../../apiServices/bankAccount.js/DeleteBankAccount';
 import { useIsFocused } from '@react-navigation/native';
+import SlideAnimation from '../../components/animations/SlideAnimation';
 
 
 const BankAccounts = ({ navigation, route }) => {
@@ -42,8 +43,8 @@ const BankAccounts = ({ navigation, route }) => {
     : 'grey';
   const userData = useSelector(state => state.appusersdata.userData)
 
-    const type = route.params?.type
-    console.log("navigating to bank page from",type)
+  const type = route.params?.type
+  console.log("navigating to bank page from", type)
   const [listAccountFunc, {
     data: listAccountData,
     error: listAccountError,
@@ -62,7 +63,7 @@ const BankAccounts = ({ navigation, route }) => {
   const height = Dimensions.get('window').height
 
   const deleteData = async () => {
-    console.log("deleteData ",deleteAccountId)
+    console.log("deleteData ", deleteAccountId)
     const credentials = await Keychain.getGenericPassword();
     if (credentials) {
       console.log(
@@ -75,8 +76,8 @@ const BankAccounts = ({ navigation, route }) => {
         token: token,
         id: id
       }
-      if(deleteAccountId!=='')
-      deleteBankFunc(params)
+      if (deleteAccountId !== '')
+        deleteBankFunc(params)
       refetchData()
     }
   }
@@ -147,49 +148,49 @@ const BankAccounts = ({ navigation, route }) => {
 
 
   const setSelectedPaymentMethod = (data) => {
-    console.log("Selected bank account",data)
+    console.log("Selected bank account", data)
     setHasSelectedPaymentMethod(data.id)
   }
 
-  const DeleteAccountModal =()=>{
-    return(
+  const DeleteAccountModal = () => {
+    return (
       <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
 
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Info name="info" color={ternaryThemeColor} size={40}></Info>
-              <PoppinsTextMedium style={{ color: 'black', width: 300, marginTop: 20, fontSize: 18 }} content="Are you sure?"></PoppinsTextMedium>
-              <PoppinsTextMedium style={{ color: 'black', width: '90%', marginTop: 20, fontSize: 20 }} content="Do you want to delete this account?"></PoppinsTextMedium>
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Info name="info" color={ternaryThemeColor} size={40}></Info>
+            <PoppinsTextMedium style={{ color: 'black', width: 300, marginTop: 20, fontSize: 18 }} content="Are you sure?"></PoppinsTextMedium>
+            <PoppinsTextMedium style={{ color: 'black', width: '90%', marginTop: 20, fontSize: 20 }} content="Do you want to delete this account?"></PoppinsTextMedium>
 
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "center", marginTop: 20 }}>
-                <TouchableOpacity onPress={() => {
-                  console.log("cancel")
-                  setModalVisible(false)
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: "center", marginTop: 20 }}>
+              <TouchableOpacity onPress={() => {
+                console.log("cancel")
+                setModalVisible(false)
 
 
-                }} style={{ alignItems: "center", justifyContent: "center", backgroundColor: 'white', flexDirection: "row", height: 40, width: 100, borderRadius: 20, borderWidth: 1 }}>
-                  <PoppinsTextMedium style={{ color: 'black', marginLeft: 10, fontWeight: '700' }} content="Cancel"></PoppinsTextMedium>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => {
-                  // console.log("Upi component delete",props.id)
-                  console.log("Delete")
-                  setModalVisible(false)
-                  deleteData()
+              }} style={{ alignItems: "center", justifyContent: "center", backgroundColor: 'white', flexDirection: "row", height: 40, width: 100, borderRadius: 20, borderWidth: 1 }}>
+                <PoppinsTextMedium style={{ color: 'black', marginLeft: 10, fontWeight: '700' }} content="Cancel"></PoppinsTextMedium>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => {
+                // console.log("Upi component delete",props.id)
+                console.log("Delete")
+                setModalVisible(false)
+                deleteData()
 
-                }} style={{ alignItems: "center", justifyContent: "center", backgroundColor: ternaryThemeColor, flexDirection: "row", marginLeft: 40, height: 40, width: 100, borderRadius: 20 }}>
-                  <PoppinsTextMedium style={{ color: 'white', marginLeft: 10 }} content="Delete"></PoppinsTextMedium>
-                </TouchableOpacity>
-              </View>
-
+              }} style={{ alignItems: "center", justifyContent: "center", backgroundColor: ternaryThemeColor, flexDirection: "row", marginLeft: 40, height: 40, width: 100, borderRadius: 20 }}>
+                <PoppinsTextMedium style={{ color: 'white', marginLeft: 10 }} content="Delete"></PoppinsTextMedium>
+              </TouchableOpacity>
             </View>
+
           </View>
-        </Modal>
+        </View>
+      </Modal>
     )
   }
 
@@ -211,7 +212,7 @@ const BankAccounts = ({ navigation, route }) => {
       }
     }, [props.unSelect])
 
-    
+
 
     const handleSelection = () => {
       setSelected(!selected)
@@ -270,7 +271,7 @@ const BankAccounts = ({ navigation, route }) => {
                           <PoppinsTextMedium style={{color:ternaryThemeColor,fontSize:14,marginLeft:4}} content="Edit"></PoppinsTextMedium>                        
                         </TouchableOpacity> */}
               <TouchableOpacity onPress={() => {
-                console.log("account component delete",props.id)
+                console.log("account component delete", props.id)
                 setDeleteAccountId(props.id)
                 setModalVisible(true)
 
@@ -305,25 +306,24 @@ const BankAccounts = ({ navigation, route }) => {
 
     const handleSelection = (selection) => {
       setSelected(!selection)
-      console.log("selection",selection)
-      if(!selection)
-      {
+      console.log("selection", selection)
+      if (!selection) {
         props.handleData({
           upi: upi,
           id: props.id,
           type: type
         })
       }
-      
-      
+
+
 
 
 
     }
     return (
 
-      <View style={{ alignItems: "flex-start", justifyContent: 'center', width: '90%', height: 110, marginTop: 20, flexDirection: "row", borderBottomWidth: 1, borderColor: '#DDDDDD' }}>
-        
+      <View style={{ alignItems: "flex-start", justifyContent: 'center', width: '90%', height: 70, marginTop: 20, flexDirection: "row", borderBottomWidth: 1, borderColor: '#DDDDDD' }}>
+
         <View
           style={{
             width: '80%',
@@ -350,7 +350,7 @@ const BankAccounts = ({ navigation, route }) => {
                          
                         </TouchableOpacity> */}
               <TouchableOpacity onPress={() => {
-                console.log("ID",props.id)
+                console.log("ID", props.id)
                 setDeleteAccountId(props.id)
                 setModalVisible(true)
               }} style={{ height: '50%', flexDirection: 'row', alignItems: "center", justifyContent: 'center' }}>
@@ -377,7 +377,7 @@ const BankAccounts = ({ navigation, route }) => {
         backgroundColor: ternaryThemeColor,
         height: '100%',
       }}>
-        {modalVisible && <DeleteAccountModal></DeleteAccountModal>}
+      {modalVisible && <DeleteAccountModal></DeleteAccountModal>}
       {error && (
         <MessageModal
           modalClose={modalClose}
@@ -450,46 +450,56 @@ const BankAccounts = ({ navigation, route }) => {
           <View style={{ alignItems: "center", justifyContent: "center" }}>
 
             {listAccountData?.body?.length !== 0 &&
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'flex-start',
-                  width: '90%',
-                  backgroundColor: 'white',
-                  borderColor: '#DDDDDD',
-                  borderWidth: 0.8,
-                  borderRadius: 10,
-                  marginTop: 20,
-                  minHeight: 140
-                }}>
-                {console.log("listAccountData in view", listAccountData?.body.length)}
-                {
-                  listAccountData && listAccountData?.body.map((item, index) => {
-                    if (!Object.keys(item.bene_details).includes("upi_id")) {
-                      console.log("true", item)
-                      return (
-                        <BankComponentAccount unSelect={hasSelectedPaymentMethod} handleData={setSelectedPaymentMethod} key={index} type="account" id={item.id} bankName={item.bene_bank} accountNo={item.bene_details.bank_account} ifsc={item.bene_details.ifsc} name={item.bene_name}></BankComponentAccount>
-
-                      )
-
+              <SlideAnimation direction={"up"} duration={1000} comp={
+                ()=>{
+                  return(
+                    <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      width: '100%',
+                      backgroundColor: 'white',
+                      borderColor: '#DDDDDD',
+                      borderWidth: 0.8,
+                      borderRadius: 10,
+                      marginTop: 20,
+                      // minHeight: 80
+                    }}>
+                    {console.log("listAccountData in view", listAccountData?.body.length)}
+                    {
+                      listAccountData && listAccountData?.body.map((item, index) => {
+                        if (!Object.keys(item.bene_details).includes("upi_id")) {
+                          console.log("true", item)
+                          return (
+                            <BankComponentAccount unSelect={hasSelectedPaymentMethod} handleData={setSelectedPaymentMethod} key={index} type="account" id={item.id} bankName={item.bene_bank} accountNo={item.bene_details.bank_account} ifsc={item.bene_details.ifsc} name={item.bene_name}></BankComponentAccount>
+    
+                          )
+    
+                        }
+                        else {
+                          console.log("false", item)
+                          return (
+                            <View>
+                              <BankComponentUpi unSelect={hasSelectedPaymentMethod} handleData={setSelectedPaymentMethod} key={index} id={item.id} type="upi" upi={item.bene_details.upi_id} ></BankComponentUpi>
+    
+                            </View>
+                          )
+                        }
+    
+                      })
+    
                     }
-                    else {
-                      console.log("false", item)
-                      return (
-                        <BankComponentUpi unSelect={hasSelectedPaymentMethod} handleData={setSelectedPaymentMethod} key={index} id={item.id} type="upi" upi={item.bene_details.upi_id} ></BankComponentUpi>
-                      )
-                    }
-
-                  })
-
+    
+    
+                  </View>
+                  )
                 }
-
-
-              </View>
+              }/>
+        
             }
 
-            {(listAccountData?.body?.length == 0  || listAccountData == undefined ) && <View style={{ alignItems: 'center', marginTop:"60%"}}>
-              <PoppinsTextMedium style ={{fontSize:16}}content="No Bank Account has been added yet !"></PoppinsTextMedium>
+            {(listAccountData?.body?.length == 0 || listAccountData == undefined) && <View style={{ alignItems: 'center', marginTop: "60%" }}>
+              <PoppinsTextMedium style={{ fontSize: 16 }} content="No Bank Account has been added yet !"></PoppinsTextMedium>
             </View>}
 
 
@@ -503,16 +513,15 @@ const BankAccounts = ({ navigation, route }) => {
             <Plus name="pluscircle" size={50} color={ternaryThemeColor}></Plus>
           </TouchableOpacity>
         </View>
-           {
-           type==="Cashback" && <TouchableOpacity onPress={()=>{
-            if(hasSelectedPaymentMethod)
-            {
-            navigation.navigate("OtpVerification",{type:"Cashback",selectedAccount:hasSelectedPaymentMethod})
+        {
+          type === "Cashback" && <TouchableOpacity onPress={() => {
+            if (hasSelectedPaymentMethod) {
+              navigation.navigate("OtpVerification", { type: "Cashback", selectedAccount: hasSelectedPaymentMethod })
             }
-            }} style={{width:100,alignItems:'center',justifyContent:'center',backgroundColor:ternaryThemeColor,padding:8, position: 'absolute', bottom: 14, left: 20 }}>
-              <PoppinsText content ="Get OTP" style={{color:'white',fontSize:16}}></PoppinsText>
-            </TouchableOpacity>
-            }
+          }} style={{ width: 100, alignItems: 'center', justifyContent: 'center', backgroundColor: ternaryThemeColor, padding: 8, position: 'absolute', bottom: 14, left: 20 }}>
+            <PoppinsText content="Get OTP" style={{ color: 'white', fontSize: 16 }}></PoppinsText>
+          </TouchableOpacity>
+        }
 
 
       </View>

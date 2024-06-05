@@ -12,6 +12,7 @@ import FilterModal from '../../components/modals/FilterModal';
 import { useGetPointSharingDataMutation } from '../../apiServices/pointSharing/pointSharingApi';
 import { dispatchCommand } from 'react-native-reanimated';
 import InputDate from '../../components/atoms/input/InputDate';
+import SlideAnimation from '../../components/animations/SlideAnimation';
 
 const PointHistory = ({ navigation }) => {
     const [displayList, setDisplayList] = useState([])
@@ -458,7 +459,15 @@ const PointHistory = ({ navigation }) => {
                 renderItem={({ item, index }) => {
                     console.log(index + 1, item)
                     return (
-                        <ListItem visibleCode = {item.batch_running_code} type = {item?.cause?.type} image={item?.images ===undefined ? undefined : item?.images ===null ? undefined:item?.images[0]} description={item?.product_name} productCode={item?.product_code} amount={item?.points} status={item?.status} points={item?.points} is_reverted= {item?.is_reverted} date = {moment(item?.created_at).format("DD-MMM-YYYY")} time={moment(item?.created_at).format("HH:mm a")}/>
+                        <SlideAnimation direction={"up"} duration={2000} comp={
+                            ()=>{
+                                return(
+                                    <ListItem visibleCode = {item.batch_running_code} type = {item?.cause?.type} image={item?.images ===undefined ? undefined : item?.images ===null ? undefined:item?.images[0]} description={item?.product_name} productCode={item?.product_code} amount={item?.points} status={item?.status} points={item?.points} is_reverted= {item?.is_reverted} date = {moment(item?.created_at).format("DD-MMM-YYYY")} time={moment(item?.created_at).format("HH:mm a")}/>
+
+                                )
+                            }
+
+                        }/>
                     )
                 }}
                 keyExtractor={(item,index) => index}

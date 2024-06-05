@@ -9,6 +9,7 @@ import * as Keychain from 'react-native-keychain';
 import PlatinumModal from '../../components/platinum/PlatinumModal';
 import { useGetPointSharingDataMutation } from '../../apiServices/pointSharing/pointSharingApi';
 import PoppinsTextLeftMedium from '../../components/electrons/customFonts/PoppinsTextLeftMedium';
+import SlideAnimation from '../../components/animations/SlideAnimation';
 
 const Passbook = ({ navigation }) => {
     const [warrantyOptionEnabled, setWarrantyOptionEnabled] = useState(false)
@@ -103,24 +104,23 @@ const Passbook = ({ navigation }) => {
         else if (getPointSharingError) {
             console.log("getPointSharingError", getPointSharingError)
 
-            if(getPointSharingError.status == 401)
-                {
-                  const handleLogout = async () => {
+            if (getPointSharingError.status == 401) {
+                const handleLogout = async () => {
                     try {
-                      
-                      await AsyncStorage.removeItem('loginData');
-                      navigation.navigate("Splash")
-                      navigation.reset({ index: 0, routes: [{ name: 'Splash' }] }); // Navigate to Splash screen
+
+                        await AsyncStorage.removeItem('loginData');
+                        navigation.navigate("Splash")
+                        navigation.reset({ index: 0, routes: [{ name: 'Splash' }] }); // Navigate to Splash screen
                     } catch (e) {
-                      console.log("error deleting loginData", e);
+                        console.log("error deleting loginData", e);
                     }
-                  };
-                  handleLogout();
-                }
-                else{
+                };
+                handleLogout();
+            }
+            else {
                 setError(true)
                 setMessage("Unable to fetch user point history.")
-                }
+            }
         }
     }, [getPointSharingData, getPointSharingError])
 
@@ -208,23 +208,30 @@ const Passbook = ({ navigation }) => {
 
 
         return (
-            <TouchableOpacity onPress={() => {
-                navigateToPages(title)
-            }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", borderBottomWidth: 1, width: '100%', borderColor: '#EEEEEE', padding: 6, paddingTop: 8, paddingBottom: 8 }}>
-                <View style={{ height: 44, width: 44, alignItems: "center", justifyContent: "center", borderRadius: 4, borderColor: ternaryThemeColor, borderWidth: 1, marginLeft: 10 }}>
-                    <Image style={{ height: 26, width: 26, resizeMode: "contain" }} source={image}></Image>
-                </View>
-                <View style={{ height: 50, width: 210, alignItems: "flex-start", justifyContent: "center", marginLeft: 14 }}>
-                    <PoppinsText style={{ color: 'black', fontSize: 14 }} content={title}></PoppinsText>
-                    <PoppinsTextMedium style={{ color: 'grey', fontSize: 12, textAlign: 'left' }} content={discription}></PoppinsTextMedium>
-                </View>
+            
+            <SlideAnimation direction="up" duration={800} distance={100} comp={() =>
                 <TouchableOpacity onPress={() => {
                     navigateToPages(title)
-                }} style={{ marginLeft: 20 }}>
-                    <Image style={{ height: 22, width: 22, resizeMode: "contain" }} source={require('../../../assets/images/goNext.png')}></Image>
+                }} style={{ flexDirection: "row", alignItems: "center", justifyContent: "flex-start", borderBottomWidth: 1, width: '100%', borderColor: '#EEEEEE', padding: 6, paddingTop: 8, paddingBottom: 8 }}>
+                    <View style={{ height: 44, width: 44, alignItems: "center", justifyContent: "center", borderRadius: 4, borderColor: ternaryThemeColor, borderWidth: 1, marginLeft: 10 }}>
+                        <Image style={{ height: 26, width: 26, resizeMode: "contain" }} source={image}></Image>
+                    </View>
+                    <View style={{ height: 50, width: 210, alignItems: "flex-start", justifyContent: "center", marginLeft: 14 }}>
+                        <PoppinsText style={{ color: 'black', fontSize: 14 }} content={title}></PoppinsText>
+                        <PoppinsTextMedium style={{ color: 'grey', fontSize: 12, textAlign: 'left' }} content={discription}></PoppinsTextMedium>
+                    </View>
+                    <TouchableOpacity onPress={() => {
+                        navigateToPages(title)
+                    }} style={{ marginLeft: 20 }}>
+                        <Image style={{ height: 22, width: 22, resizeMode: "contain" }} source={require('../../../assets/images/goNext.png')}></Image>
+                    </TouchableOpacity>
+    
                 </TouchableOpacity>
+        }
+            
+            />
 
-            </TouchableOpacity>
+          
         )
     }
 
@@ -273,13 +280,13 @@ const Passbook = ({ navigation }) => {
 
         return (
             <View>
-                <TouchableOpacity onPress={() => {
+                <SlideAnimation direction="left" duration={800} distance={100} comp={() => <TouchableOpacity onPress={() => {
                     navigateToPages(title)
                 }} style={{ flexDirection: "column", borderWidth: 2, width: 70, height: 70, borderColor: ternaryThemeColor, padding: 6, marginTop: 15, marginHorizontal: 22, alignItems: 'center' }}>
                     <View style={{ height: 44, width: 44, alignItems: "center", justifyContent: "center", }}>
                         <Image style={{ height: 40, width: 40, resizeMode: "contain", }} source={image}></Image>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity>} />
 
                 <View style={{ width: 80, marginTop: 6, alignSelf: 'center' }}>
                     <PoppinsTextMedium style={{ color: 'black', fontWeight: '800', fontSize: 14, textAlign: 'center' }} content={title}></PoppinsTextMedium>
@@ -292,7 +299,7 @@ const Passbook = ({ navigation }) => {
 
 
     return (
-        <ScrollView style={{ height: '100%', width: '100%', flex: 1 }}>
+        <ScrollView style={{ height: '100%', width: '100%', flex: 1, backgroundColor:'white' }}>
             <View style={{ alignItems: "center", height: '100%', width: "100%", backgroundColor: "white", paddingBottom: 100, }}>
 
                 {/* coloured header */}
@@ -322,6 +329,7 @@ const Passbook = ({ navigation }) => {
 
                     </View>
                     {workflowProgram?.length !== 0 && <View style={{ alignItems: "center", justifyContent: "center", width: '100%', }}>
+                        
                         <RewardBox ></RewardBox>
 
                     </View>}
@@ -448,7 +456,7 @@ const Passbook = ({ navigation }) => {
                             {/* {
                             <GridVIew title="Warranty History" discription=" list of warranty redeemed by you" image={require('../../../assets/images/warranty_icon.png')}></GridVIew>
                             } */}
-                       
+
                             {
                                 couponOptionEnabled &&
                                 <GridVIew title="Coupon History" discription=" list of coupons redeemed by you" image={require('../../../assets/images/scannedHistory.png')}></GridVIew>

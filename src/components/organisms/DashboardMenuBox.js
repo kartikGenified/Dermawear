@@ -84,6 +84,7 @@ const DashboardMenuBox=(props)=>{
     const width = Dimensions.get('window').width
 
   const [showKyc, setShowKyc] = useState(true)
+  const[error, setError] = useState(false)
     
     
 

@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useFetchUserPointsMutation } from '../../apiServices/workflow/rewards/GetPointsApi';
 import * as Keychain from 'react-native-keychain';
 import FastImage from 'react-native-fast-image';
+import SlideAnimation from '../animations/SlideAnimation';
 
 const RewardBox = () => {
     const workflow = useSelector(state => state.appWorkflow.program)
@@ -45,14 +46,15 @@ const RewardBox = () => {
     }, [userPointData, userPointError])
 
 
-    console.log(workflow)
+    // console.log(workflow)
+
     return (
         <View style={{ padding: 4, width: '100%', borderRadius: 14, elevation: 4, backgroundColor: 'white', height: 170 }}>
 
 
             {userPointIsLoading &&
                 <FastImage
-                    style={{ width: 100, height: 100, alignSelf: 'center', marginTop: 20 }}
+                    style={{ width: "100%", height: "100%",zIndex:1 }}
                     source={{
                         uri: gifUri, // Update the path to your GIF
                         priority: FastImage.priority.normal,
@@ -61,35 +63,44 @@ const RewardBox = () => {
                 />
             }
 
-            <ScrollView contentContainerStyle={{ }} style={{width:'100%'   }} showsHorizontalScrollIndicator={false} horizontal={true}>
-                {
-                    workflow.includes("Static Coupon") && <RewardSquare color="#FFE2E6" image={require('../../../assets/images/voucher.png')} title="My Coupons"></RewardSquare>
-                }
-                {
-                    workflow.includes("Cashback") && <RewardSquare color="#FFF4DE" image={require('../../../assets/images/cashback.png')} title="Cashback"></RewardSquare>
-                }
+            {
+                <SlideAnimation direction="left" duration={1600} distance={100} comp={() =>
 
-                {
-                    workflow.includes("Wheel") && <RewardSquare color="#FFE2E6" image={require('../../../assets/images/cashback.png')} title="Spin Wheel"></RewardSquare>
+                    <ScrollView contentContainerStyle={{backgroundColor:'white', width:'100%'}} style={{ width: '100%',backgroundColor:'white' }} showsHorizontalScrollIndicator={false} horizontal={true}>
+                        {
+                            workflow.includes("Static Coupon") && <RewardSquare color="#FFE2E6" image={require('../../../assets/images/voucher.png')} title="My Coupons"></RewardSquare>
+                        }
+                        {
+                            workflow.includes("Cashback") && <RewardSquare color="#FFF4DE" image={require('../../../assets/images/cashback.png')} title="Cashback"></RewardSquare>
+                        }
 
-                }
+                        {
+                            workflow.includes("Wheel") && <RewardSquare color="#FFE2E6" image={require('../../../assets/images/cashback.png')} title="Spin Wheel"></RewardSquare>
 
-                {
-                    workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_earned} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Earned Points"></RewardSquare>
-                }
-                {
-                    workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_redeemed} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Redeemed Points"></RewardSquare>
-                }
-                {
-                    workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_balance} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Balance Points"></RewardSquare>
-                }
-                {/* {
-                    workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_reserved} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Reserved Points"></RewardSquare>
-                } */}
-                {
-                    workflow.includes("Points On Product") && userPointData && <RewardSquare amount={String(Number(userPointData.body.point_reserved) + Number(userPointData.body.point_balance)).substring(0,6)} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Total Points"></RewardSquare>
-                }
-            </ScrollView>
+                        }
+
+                        {
+                            workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_earned} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Earned Points"></RewardSquare>
+                        }
+                        {
+                            workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_redeemed} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Redeemed Points"></RewardSquare>
+                        }
+                        {
+                            workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_balance} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Balance Points"></RewardSquare>
+                        }
+                        {/* {
+    workflow.includes("Points On Product") && userPointData && <RewardSquare amount={userPointData.body.point_reserved} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Reserved Points"></RewardSquare>
+} */}
+                        {
+                            workflow.includes("Points On Product") && userPointData && <RewardSquare amount={String(Number(userPointData.body.point_reserved) + Number(userPointData.body.point_balance)).substring(0, 6)} color="#DCFCE7" image={require('../../../assets/images/points.png')} title="Total Points"></RewardSquare>
+                        }
+                    </ScrollView>
+
+
+                } />
+
+            }
+
 
         </View>
     )

@@ -23,6 +23,7 @@ import FastImage from 'react-native-fast-image';
 import ModalWithBorder from '../../components/modals/ModalWithBorder';
 import Close from 'react-native-vector-icons/Ionicons';
 import DeleteModal from '../../components/modals/DeleteModal';
+import SlideAnimation from '../../components/animations/SlideAnimation';
 
 
 
@@ -243,17 +244,18 @@ const Profile = ({ navigation }) => {
     )
 
   }
+
   const GreyBar = () => {
     return (
-      <View style={{ width: '100%', height: 50, flexDirection: "row", alignItems: 'center', justifyContent: 'space-evenly', backgroundColor: '#F9F9F9', borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#DDDDDD' }}>
+      <View style={{marginTop:-20, width: '100%', height: 60, flexDirection: "row",borderTopWidth:1, alignItems: 'center', justifyContent: 'space-evenly', backgroundColor: ternaryThemeColor,    borderBottomWidth: 1,borderColor: '#80808060' }}>
         <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
-          <Image style={{ height: 20, width: 20, resizeMode: "contain" }} source={require('../../../assets/images/mobileBlack.png')}></Image>
-          <PoppinsTextMedium style={{ color: 'black', marginLeft: 8 }} content={fetchProfileData.body?.mobile}></PoppinsTextMedium>
+          <Image style={{ height: 20, width: 20, resizeMode: "contain" }} source={require('../../../assets/images/mobileWhite.png')}></Image>
+          <PoppinsTextMedium style={{ color: 'white', marginLeft: 8 }} content={fetchProfileData.body?.mobile}></PoppinsTextMedium>
         </View>
-        {fetchProfileData.body?.gender !== null && <View style={{ width: 1, borderWidth: 0.8, borderColor: '#353535', height: '30%' }}></View>}
+        {fetchProfileData.body?.gender !== null && <View style={{ width: 1, borderWidth: 0.8, borderColor: 'white', height: '30%' }}></View>}
         {fetchProfileData.body?.gender !== null && <View style={{ flexDirection: "row", alignItems: 'center', justifyContent: 'center' }}>
-          <Image style={{ height: 20, width: 20, resizeMode: "contain" }} source={require('../../../assets/images/genderBlack.png')}></Image>
-          <PoppinsTextMedium style={{ color: 'black', marginLeft: 8 }} content={fetchProfileData.body?.gender}></PoppinsTextMedium>
+          <Image style={{ height: 20, width: 20, resizeMode: "contain" }} source={require('../../../assets/images/genderWhite.png')}></Image>
+          <PoppinsTextMedium style={{ color: 'white', marginLeft: 8 }} content={fetchProfileData.body?.gender}></PoppinsTextMedium>
         </View>}
 
 
@@ -325,8 +327,9 @@ const Profile = ({ navigation }) => {
               marginLeft: 10,
             }}>
             <PoppinsText
-              style={{ color: 'white', fontSize: 20 }}
+              style={{ color: 'white', fontSize: 20, marginLeft:8 }}
               content={name}></PoppinsText>
+              
             {membership && <View
               style={{
                 flexDirection: 'row',
@@ -461,89 +464,102 @@ const Profile = ({ navigation }) => {
 
       </View>
       {!showNoDataFoundMessage && <ProfileHeader></ProfileHeader>}
-      {fetchProfileData && <GreyBar></GreyBar>}
+      {fetchProfileData &&
+      <View>
+      <GreyBar></GreyBar>
+      <View style={{marginTop:-10, height:20,width:'100%', backgroundColor:"white",borderTopLeftRadius:20, borderTopRightRadius:20}}>
+
+      </View>
+      </View>
+      }
       {showDeleteModal && <DeleteModal hideModal = {hideModal} modalVisible={showDeleteModal}></DeleteModal>}
-      <ScrollView>
+      
+      <SlideAnimation direction={"up"}  duration={2000} comp={
+        ()=>{
+          return(
+            <ScrollView showsVerticalScrollIndicator={false }>
 
-        {showProfileData && <>
-          <View
-            style={{
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
-              backgroundColor: 'white',
-
-              marginTop: 10,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            {/* <ProfileData></ProfileData> */}
-            {showProfileData &&
-              formFields.map((item, index) => {
-                console.log("showProfileData", item, formValues[index]);
-                if (item.type === "date" || item.type === "Date") {
-                  return (
-                    <DisplayOnlyTextInput
-                      key={index}
-                      data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : moment(formValues[index]).format("DD-MMM-YYYY")}
-                      title={item.label}
-                      photo={require('../../../assets/images/eye.png')}>
-
-                    </DisplayOnlyTextInput>
-
-                  );
-                }
-                else {
-                  if ((item.name).toLowerCase() === "enrollment_date" ) {
-                    return (
-                      <DisplayOnlyTextInput
-                        key={index}
-                        data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : moment(formValues[index]).format("DD-MMM-YYYY")}
-                        title={item.label}
-                        photo={require('../../../assets/images/eye.png')}>
-  
-                      </DisplayOnlyTextInput>
-  
-                    );
-                  }
-                  return (
-                    <DisplayOnlyTextInput
-                      key={index}
-                      data={formValues[index] === null || formValues[index] === undefined   ? 'No data available' : formValues[index]}
-                      title={item.label}
-                      photo={require('../../../assets/images/eye.png')}>
-
-                    </DisplayOnlyTextInput>
-                  );
-                }
-
-              })}
-
-
-          </View>
-          <View style={{ width: '100%', backgroundColor: "white", alignItems: "center", justifyContent: 'center' }}>
-            <View style={{ height: 100, width: '90%', backgroundColor: "white", alignItems: "flex-start", justifyContent: 'center', flexDirection: 'row', marginTop: 20 }}>
-
-              <ProfileBox buttonTitle="+ Add" title="Payment Methods" image={require('../../../assets/images/money.png')}></ProfileBox>
-              <ProfileBox buttonTitle="View" title="Check Passbook" image={require('../../../assets/images/passbook_icon.png')}></ProfileBox>
-            </View>
-          </View>
-        </>}
-        {formFields === undefined && formValues === undefined &&
-          <View>
-            <FastImage
-              style={{ width: 100, height: 100, alignSelf: 'center', marginTop: '60%' }}
-              source={{
-                uri: gifUri, // Update the path to your GIF
-                priority: FastImage.priority.normal
-              }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-
-            <PoppinsTextMedium style={{ color: 'black', fontWeight: '600', fontSize: 14, marginTop: 10 }} content="Loading"></PoppinsTextMedium>
-          </View>
-
+            {showProfileData && <>
+              <View
+                style={{
+                  borderTopRightRadius: 30,
+                  borderTopLeftRadius: 30,
+                  backgroundColor: 'white',
+                  marginTop: 10,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                {/* <ProfileData></ProfileData> */}
+                {showProfileData &&
+                  formFields.map((item, index) => {
+                    console.log("showProfileData", item, formValues[index]);
+                    if (item.type === "date" || item.type === "Date") {
+                      return (
+                        <DisplayOnlyTextInput
+                          key={index}
+                          data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : moment(formValues[index]).format("DD-MMM-YYYY")}
+                          title={item.label}
+                          photo={require('../../../assets/images/eye.png')}>
+    
+                        </DisplayOnlyTextInput>
+    
+                      );
+                    }
+                    else {
+                      if ((item.name).toLowerCase() === "enrollment_date" ) {
+                        return (
+                          <DisplayOnlyTextInput
+                            key={index}
+                            data={formValues[index] === null || formValues[index] === undefined  ? 'No data available' : moment(formValues[index]).format("DD-MMM-YYYY")}
+                            title={item.label}
+                            photo={require('../../../assets/images/eye.png')}>
+      
+                          </DisplayOnlyTextInput>
+      
+                        );
+                      }
+                      return (
+                        <DisplayOnlyTextInput
+                          key={index}
+                          data={formValues[index] === null || formValues[index] === undefined   ? 'No data available' : formValues[index]}
+                          title={item.label}
+                          photo={require('../../../assets/images/eye.png')}>
+    
+                        </DisplayOnlyTextInput>
+                      );
+                    }
+    
+                  })}
+    
+    
+              </View>
+              <View style={{ width: '100%', backgroundColor: "white", alignItems: "center", justifyContent: 'center' }}>
+                <View style={{ height: 100, width: '90%', backgroundColor: "white", alignItems: "flex-start", justifyContent: 'center', flexDirection: 'row', marginTop: 20 }}>
+    
+                  <ProfileBox buttonTitle="+ Add" title="Payment Methods" image={require('../../../assets/images/money.png')}></ProfileBox>
+                  <ProfileBox buttonTitle="View" title="Check Passbook" image={require('../../../assets/images/passbook_icon.png')}></ProfileBox>
+                </View>
+              </View>
+            </>}
+            {formFields === undefined && formValues === undefined &&
+              <View>
+                <FastImage
+                  style={{ width: 100, height: 100, alignSelf: 'center', marginTop: '60%' }}
+                  source={{
+                    uri: gifUri, // Update the path to your GIF
+                    priority: FastImage.priority.normal
+                  }}
+                  resizeMode={FastImage.resizeMode.contain}
+                />
+    
+                <PoppinsTextMedium style={{ color: 'black', fontWeight: '600', fontSize: 14, marginTop: 10 }} content="Loading"></PoppinsTextMedium>
+              </View>
+    
+            }
+          </ScrollView>
+          )
         }
-      </ScrollView>
+      }/>
 
       {openModalWithBorder && <ModalWithBorder
         modalClose={() => {()=> setModalBorder(false) }}

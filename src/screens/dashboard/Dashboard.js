@@ -58,6 +58,7 @@ const Dashboard = ({ navigation }) => {
   const [message, setMessage] = useState();
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [animatedLoading, setAnimateLoading] = useState(false)
   const focused = useIsFocused()
   const dispatch = useDispatch()
   const userId = useSelector((state) => state.appusersdata.userId)
@@ -539,6 +540,15 @@ useEffect(() => {
     setError(false);
   };
 
+  const animateAndNavigate = ()=>{
+    setAnimateLoading(true)
+    setTimeout(()=>{
+      navigation.navigate("RedeemedHistory")
+      setAnimateLoading(false)
+    },1000)
+
+  }
+
   const notifModalFunc = () => {
     return (
       <View style={{width:'100%'  }}>
@@ -629,8 +639,9 @@ useEffect(() => {
             </View>
 
             <View style={{ backgroundColor: 'white', paddingLeft: '8%' }}>
-              <TouchableOpacity style={{ backgroundColor: ternaryThemeColor, padding: 10, borderRadius: 5, width: 120, alignItems: 'center' }} onPress={() => { navigation.navigate("RedeemedHistory") }}>
-                <PoppinsTextLeftMedium style={{ color: 'white', fontWeight: '800' }} content="Redeem"  ></PoppinsTextLeftMedium>
+             <TouchableOpacity style={{ backgroundColor: ternaryThemeColor, padding: 10, borderRadius: 5, width: 120, alignItems: 'center' }} onPress={() => {animateAndNavigate()}}>
+             {animatedLoading ? <AnimatedDots color={'white'}/> :       <PoppinsTextLeftMedium style={{ color: 'white', fontWeight: '800' }} content="Redeem"  ></PoppinsTextLeftMedium> } 
+            
               </TouchableOpacity>
             </View>
 
@@ -642,7 +653,9 @@ useEffect(() => {
           <DashboardDataBox header="Total Points"  data="5000" image={require('../../../assets/images/coin.png')} ></DashboardDataBox>
 
           </ScrollView> */}
-          {dashboardItems && !userPointIsLoading && <DashboardMenuBox navigation={navigation} data={dashboardItems}></DashboardMenuBox>}
+          {dashboardItems && !userPointIsLoading &&
+          
+          <DashboardMenuBox navigation={navigation} data={dashboardItems}></DashboardMenuBox>}
           {
         userPointIsLoading && <FastImage
           style={{ width: 100, height: 100, alignSelf: 'center',marginTop:20 }}

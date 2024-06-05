@@ -3,6 +3,7 @@ import {View, StyleSheet,Image,Text,TouchableOpacity} from 'react-native';
 import PoppinsText from '../electrons/customFonts/PoppinsText';
 import PoppinsTextMedium from '../electrons/customFonts/PoppinsTextMedium';
 import { useNavigation } from '@react-navigation/native';
+import SlideAnimation from '../animations/SlideAnimation';
 const RedeemRewardDataBox = (props) => {
     const navigation = useNavigation()
     const image = props.image

@@ -12,6 +12,8 @@ import BookOpen from 'react-native-vector-icons/Entypo'
 import { useGetkycStatusMutation } from '../apiServices/kyc/KycStatusApi';
 import { useIsFocused } from '@react-navigation/native';
 import * as Keychain from 'react-native-keychain';
+import RotateViewAnimation from '../components/animations/RotateViewAnimation';
+import FlipAnimation from '../components/animations/FlipAnimation';
 
 
 // import { Image } from 'react-native-svg';
@@ -86,7 +88,7 @@ function BottomNavigator({ navigation }) {
 
         setShowKyc(tempStatus.includes(false))
 
-        console.log("showKyc",showKyc)
+        console.log("showKyc", showKyc)
 
 
       }
@@ -97,6 +99,13 @@ function BottomNavigator({ navigation }) {
       console.log("getKycStatusError", getKycStatusError)
     }
   }, [getKycStatusData, getKycStatusError])
+
+  const qrIcon = () =>{
+    return(
+      <Qrcode name="qrcode" size={24} color={ternaryThemeColor}></Qrcode>
+
+    )
+  }
 
 
   return (
@@ -112,7 +121,10 @@ function BottomNavigator({ navigation }) {
         </TouchableOpacity>
         {/* ozone change */}
         {((userData.user_type).toLowerCase() !== "dealer" && (userData.user_type).toLowerCase() !== "sales") ? <TouchableOpacity onPress={() => { !showKyc ? navigation.navigate('QrCodeScanner') : navigation.navigate("QrCodeScanner") }} style={{ alignItems: "center", justifyContent: "center", }}>
-          <Qrcode name="qrcode" size={24} color={ternaryThemeColor}></Qrcode>
+          {/* <Qrcode name="qrcode" size={24} color={ternaryThemeColor}></Qrcode> */}
+          {/* <RotateViewAnimation outputRange={["0deg", "300deg", "-360deg", "0deg"]} inputRange={[0, 1, 2, 3]} comp={qrIcon} style={{ height: 30, width: 30 }}></RotateViewAnimation> */}
+          <FlipAnimation direction="horizontal" duration={1400} comp={qrIcon} />
+
           <PoppinsTextMedium style={{ marginTop: 4, fontSize: 12, fontWeight: platformFontWeight, color: 'black' }} content="Scan QR Code"></PoppinsTextMedium>
         </TouchableOpacity>
           :

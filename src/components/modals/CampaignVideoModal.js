@@ -10,6 +10,7 @@ import * as Keychain from 'react-native-keychain';
 import { useGetAppCampaignMutation } from '../../apiServices/campaign/CampaignApi';
 import Close from 'react-native-vector-icons/Ionicons';
 import { useSelector } from 'react-redux';
+import RotateViewAnimation from '../animations/RotateViewAnimation';
 
 
 
@@ -49,8 +50,7 @@ const CampaignVideoModal = ({ isVisible, onClose }) => {
     useEffect(() => {
         if (getAppCampaignData) {
             console.log("getAppCampaignData", getAppCampaignData);
-            if(getAppCampaignData?.body?.data.length==0)
-            {
+            if (getAppCampaignData?.body?.data.length == 0) {
                 setShowModal(false)
             }
             setHide(getAppCampaignData?.body?.data?.[0]?.image?.can_user_hide);
@@ -82,7 +82,7 @@ const CampaignVideoModal = ({ isVisible, onClose }) => {
                 <View style={styles.modalContent}>
                     <PoppinsTextMedium style={{ fontWeight: '800', color: 'black', fontSize: 20 }} content="Campaign App Promotion"></PoppinsTextMedium>
                     {getAppCampaignData &&
-                        <Image style={{ width: '100%', height: 150, resizeMode: "center", marginTop: 10 }} source={{ uri:getAppCampaignData?.body?.data?.[0]?.image }}></Image>
+                        <Image style={{ width: '100%', height: 150, resizeMode: "center", marginTop: 10 }} source={{ uri: getAppCampaignData?.body?.data?.[0]?.image }}></Image>
                     }
 
 
@@ -104,7 +104,26 @@ const CampaignVideoModal = ({ isVisible, onClose }) => {
                         <TouchableOpacity accessibilityLabel="cancel" style={[{
                             backgroundColor: ternaryThemeColor, padding: 6, borderRadius: 5, position: 'absolute', top: -10, right: -10,
                         }]} onPress={() => { onClose() }}>
-                            <Close name="close" size={17} color="#ffffff" />
+                            <RotateViewAnimation outputRange={["0deg", "360deg", "360deg", "360deg"]} inputRange={[0, 1, 2, 3]} comp={() => {
+                                return (
+                                    <View style={{ alignItems: 'center', marginTop: 5 }}>
+                                        {/* <Close name="close" size={22} color="#ffffff" /> */}
+                                        <RotateViewAnimation outputRange={["0deg", "360deg", "360deg", "360deg"]} inputRange={[0, 1, 2, 3]} comp={() => {
+                                            return (
+                                                <View style={{ alignItems: 'center', marginTop: 5 }}>
+                                                    <Close name="close" size={22} color="#ffffff" />
+
+                                                </View>
+
+                                            )
+                                        }} style={{ height: 30, width: 30 }}></RotateViewAnimation>
+
+                                    </View>
+
+                                )
+                            }} style={{ height: 30, width: 30 }}></RotateViewAnimation>
+
+
                         </TouchableOpacity>
                     }
 

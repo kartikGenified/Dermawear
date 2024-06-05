@@ -99,7 +99,7 @@ const ProductCatalogue = ({ navigation }) => {
 
 
         <Image
-          style={{ height: 140, width: '100%', borderTopRightRadius: 20, borderTopLeftRadius: 20, resizeMode: 'contain' }}
+          style={{ height: 140, width: '100%', borderTopRightRadius: 20, borderTopLeftRadius: 20, resizeMode: "stretch" }}
           source={{ uri: image }}></Image>
         <View style={{ backgroundColor: 'white', width: '100%', padding: 8, alignItems: 'center', justifyContent: 'center', position: 'absolute', bottom: 0, elevation: 8, borderBottomRightRadius: 20, borderBottomLeftRadius: 20 }}>
           <PoppinsTextMedium

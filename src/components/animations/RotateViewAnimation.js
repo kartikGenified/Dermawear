@@ -6,6 +6,7 @@ const RotateViewAnimation = (props) => {
     const rotateAnimation = useRef(new Animated.Value(0)).current;
     const inputRange = props.inputRange
     const outputRange = props.outputRange
+    
     useEffect(() => {
         
           Animated.sequence([
